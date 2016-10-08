@@ -50,6 +50,9 @@ public class Processor<KeyType> {
     }
 
     public boolean loginReceiver(IReceiver receiver, KeyType key) {
+        if (!receivers.containsKey(key)) {
+            receivers.put(key, new LinkedList<>());
+        }
         if (!receivers.get(key).contains(receiver)) {
             receivers.get(key).add(receiver);
             return true;
