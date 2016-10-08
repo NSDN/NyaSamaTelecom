@@ -11,9 +11,9 @@ public class TileEntityLoader {
 
     public TileEntityLoader(FMLInitializationEvent event) {
 
-        GameRegistry.registerTileEntity(
-                TileEntityHalfBlock.HalfBlock.class,
-                "tileEntityHalfBlock");
+        //GameRegistry.registerTileEntity(
+        //        TileEntityHalfBlock.HalfBlock.class,
+        //        "tileEntityHalfBlock");
 
     }
 
