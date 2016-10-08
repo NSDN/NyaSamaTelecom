@@ -1,15 +1,11 @@
 package club.nsdn.nyasamatelecom.Proxy;
 
 /**
- * Created by drzzm32 on 2016.5.5.
+ * Created by drzzm32 on 2016.10.8.
  */
 
 import club.nsdn.nyasamatelecom.Entity.EntityModelBinder;
-import club.nsdn.nyasamatelecom.Entity.MinecartBase;
 import club.nsdn.nyasamatelecom.Event.EventRegister;
-import club.nsdn.nyasamatelecom.Renderers.Entity.MinecartRenderer;
-import club.nsdn.nyasamatelecom.TrainControl.TrainController;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.event.*;
 import club.nsdn.nyasamatelecom.TileEntities.TileEntityModelBinder;
 

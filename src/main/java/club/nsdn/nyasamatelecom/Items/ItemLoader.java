@@ -1,10 +1,9 @@
 package club.nsdn.nyasamatelecom.Items;
 
 /**
- * Created by drzzm32 on 2016.5.5.
+ * Created by drzzm32 on 2016.10.8.
  */
 
-import club.nsdn.nyasamatelecom.NyaSamaTelecom;
 import net.minecraft.item.Item;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;

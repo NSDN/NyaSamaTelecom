@@ -1,23 +1,18 @@
 package club.nsdn.nyasamatelecom.Items;
 
 /**
- * Created by drzzm32 on 2016.5.6.
+ * Created by drzzm32 on 2016.10.8.
  */
 
 import club.nsdn.nyasamatelecom.CreativeTab.CreativeTabLoader;
-import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.UseHoeEvent;
 
 public class ItemToolBase extends Item {
     protected ToolMaterial toolMaterial;
