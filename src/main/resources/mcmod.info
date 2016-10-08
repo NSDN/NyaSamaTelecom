@@ -1,0 +1,16 @@
+[
+{
+  "modid": "NyaSamaTelecom",
+  "name": "NyaSama Telecom",
+  "description": "NyaSama telecom mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://dev.nyasama.com/nsmc",
+  "updateUrl": "",
+  "authorList": ["NSDN"],
+  "credits": "Copyright (C) NSDN 2014 - 2016",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
