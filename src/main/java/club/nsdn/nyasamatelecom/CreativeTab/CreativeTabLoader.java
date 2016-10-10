@@ -17,7 +17,7 @@ public class CreativeTabLoader {
         tabNyaSamaTelecom = new CreativeTabs("tabNyaSamaTelecom") {
             @Override
             public Item getTabIconItem() {
-                return Item.getItemFromBlock(BlockLoader.blockNyaSamaTelecomLogo);
+                return Item.getItemFromBlock(BlockLoader.blocks.get("nst_BlockNyaSamaTelecomLogo"));
             }
         };
     }

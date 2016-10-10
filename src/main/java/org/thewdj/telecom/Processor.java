@@ -15,11 +15,11 @@ public class Processor<KeyType> {
     protected LinkedHashMap<KeyType, LinkedList<IReceiver>> receivers;
 
     public Processor() {
-        this.workQueue = new LinkedList<>();
-        this.workList = new LinkedList<>();
+        this.workQueue = new LinkedList<KeyType>();
+        this.workList = new LinkedList<KeyType>();
 
-        this.transmitters = new LinkedHashMap<>();
-        this.receivers = new LinkedHashMap<>();
+        this.transmitters = new LinkedHashMap<KeyType, ITransmitter>();
+        this.receivers = new LinkedHashMap<KeyType, LinkedList<IReceiver>>();
     }
 
     public KeyType[] toArray(int index) {
@@ -51,7 +51,7 @@ public class Processor<KeyType> {
 
     public boolean loginReceiver(IReceiver receiver, KeyType key) {
         if (!receivers.containsKey(key)) {
-            receivers.put(key, new LinkedList<>());
+            receivers.put(key, new LinkedList<IReceiver>());
         }
         if (!receivers.get(key).contains(receiver)) {
             receivers.get(key).add(receiver);

@@ -4,30 +4,33 @@ package club.nsdn.nyasamatelecom.Blocks;
  * Created by drzzm32 on 2016.10.8.
  */
 
-
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
+import java.util.LinkedHashMap;
+
 public class BlockLoader {
 
-    public static Block blockSign;
-    public static Block blockNSDNLogo;
-    public static Block blockNyaSamaTelecomLogo;
+    public static LinkedHashMap<String, Block> blocks;
 
     private static void register(Block block, String name) {
         GameRegistry.registerBlock(block, name);
     }
 
     public BlockLoader(FMLPreInitializationEvent event) {
-        blockSign = new BlockSign();
-        register(blockSign, "nyasamarailway_block_sign");
+        blocks = new LinkedHashMap<String, Block>();
 
-        blockNSDNLogo = new BlockNSDNLogo();
-        register(blockNSDNLogo, "nyasamarailway_nsdn_logo");
+        blocks.put("nst_BlockSign", new BlockSign());
+        blocks.put("nst_BlockNSDNLogo", new BlockNSDNLogo());
+        blocks.put("nst_BlockNyaSamaTelecomLogo", new BlockNyaSamaTelecomLogo());
+        blocks.put("BlockTransmitter", new BlockTransmitter());
+        blocks.put("BlockReceiver", new BlockReceiver());
+        blocks.put("BlockDebugger", new BlockDebugger());
 
-        blockNyaSamaTelecomLogo = new BlockNyaSamaTelecomLogo();
-        register(blockNyaSamaTelecomLogo, "nyasamarailway_logo");
+        for (String name : blocks.keySet()) {
+            register(blocks.get(name), name);
+        }
 
     }
 

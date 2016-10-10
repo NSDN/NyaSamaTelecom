@@ -1,5 +1,6 @@
 package club.nsdn.nyasamatelecom.Event;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 /**
@@ -13,7 +14,7 @@ public class EventRegister {
     }
 
     public static void registerServer() {
-
+        FMLCommonHandler.instance().bus().register(TelecomCore.instance());
     }
 
     public static void registerClient() {
