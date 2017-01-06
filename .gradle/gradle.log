@@ -10,9 +10,11 @@
 :apiClasses UP-TO-DATE
 :sourceMainJava
 :compileJava警告: [options] 未与 -source 1.6 一起设置引导类路径
+注: E:\Works\NyaSamaTelecom\build\sources\java\org\thewdj\telecom\Processor.java使用了未经检查或不安全的操作。
+注: 有关详细信息, 请使用 -Xlint:unchecked 重新编译。
 1 个警告
 
-:processResources UP-TO-DATE
+:processResources
 :classes
 :jar
 :compileTestJava UP-TO-DATE
@@ -30,4 +32,4 @@
 
 BUILD SUCCESSFUL
 
-Total time: 22.328 secs
+Total time: 19.188 secs
