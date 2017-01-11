@@ -33,7 +33,7 @@ public class ClientProxy extends CommonProxy {
     {
         super.postInit(event);
         String prevTitle = Display.getTitle();
-        Display.setTitle(prevTitle + " | Using mods by NSDN-MC");
+        Display.setTitle(prevTitle + " | using mods by NSDN-MC");
     }
 
 
