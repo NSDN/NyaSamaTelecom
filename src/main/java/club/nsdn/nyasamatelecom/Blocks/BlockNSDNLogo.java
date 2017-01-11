@@ -12,7 +12,7 @@ public class BlockNSDNLogo extends Block {
 
     public BlockNSDNLogo() {
         super(Material.glass);
-        setBlockName("NyaSamTelecomNSDNLogo");
+        setBlockName("NyaSamaTelecomNSDNLogo");
         setBlockTextureName("nyasamatelecom:nsdn_logo");
         setHardness(2.0F);
         setLightLevel(1);

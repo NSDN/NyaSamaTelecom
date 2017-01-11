@@ -14,7 +14,7 @@
 注: 有关详细信息, 请使用 -Xlint:unchecked 重新编译。
 1 个警告
 
-:processResources
+:processResources UP-TO-DATE
 :classes
 :jar
 :compileTestJava UP-TO-DATE
@@ -22,7 +22,8 @@
 :testClasses UP-TO-DATE
 :test UP-TO-DATE
 :extractMcpData UP-TO-DATE
-:getVersionJson
+:getVersionJsonConnection reset
+
 :extractUserDev UP-TO-DATE
 :genSrgs SKIPPED
 :reobf
@@ -32,4 +33,4 @@
 
 BUILD SUCCESSFUL
 
-Total time: 19.188 secs
+Total time: 40.363 secs

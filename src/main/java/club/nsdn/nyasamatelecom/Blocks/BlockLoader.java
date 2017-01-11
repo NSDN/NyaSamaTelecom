@@ -24,9 +24,9 @@ public class BlockLoader {
         blocks.put("nst_BlockSign", new BlockSign());
         blocks.put("nst_BlockNSDNLogo", new BlockNSDNLogo());
         blocks.put("nst_BlockNyaSamaTelecomLogo", new BlockNyaSamaTelecomLogo());
-        blocks.put("BlockTransmitter", new BlockTransmitter());
-        blocks.put("BlockReceiver", new BlockReceiver());
-        blocks.put("BlockDebugger", new BlockDebugger());
+        //blocks.put("BlockTransmitter", new BlockTransmitter());
+        //blocks.put("BlockReceiver", new BlockReceiver());
+        //blocks.put("BlockDebugger", new BlockDebugger());
 
         for (String name : blocks.keySet()) {
             register(blocks.get(name), name);
