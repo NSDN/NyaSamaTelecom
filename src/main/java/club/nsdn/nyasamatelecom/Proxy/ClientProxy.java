@@ -9,8 +9,6 @@ import club.nsdn.nyasamatelecom.Event.EventRegister;
 import cpw.mods.fml.common.event.*;
 import club.nsdn.nyasamatelecom.TileEntities.TileEntityModelBinder;
 
-import org.lwjgl.opengl.Display;
-
 public class ClientProxy extends CommonProxy {
 
     @Override
@@ -29,12 +27,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void postInit(FMLPostInitializationEvent event)
-    {
-        super.postInit(event);
-        String prevTitle = Display.getTitle();
-        Display.setTitle(prevTitle + " | using mods by NSDN-MC");
-    }
+    public void postInit(FMLPostInitializationEvent event) { super.postInit(event); }
 
 
 }
