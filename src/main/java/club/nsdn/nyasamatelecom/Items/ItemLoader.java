@@ -10,13 +10,14 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class ItemLoader {
 
-
+    public static Item itemNSASM;
 
     private static void register(Item item, String name) {
         GameRegistry.registerItem(item, name);
     }
 
     public ItemLoader(FMLPreInitializationEvent event) {
-
+        itemNSASM = new ItemNSASM();
+        register(itemNSASM, "itemNSASM");
     }
 }

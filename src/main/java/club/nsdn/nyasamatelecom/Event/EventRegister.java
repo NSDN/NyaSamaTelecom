@@ -14,7 +14,6 @@ public class EventRegister {
     }
 
     public static void registerServer() {
-        FMLCommonHandler.instance().bus().register(TelecomCore.instance());
     }
 
     public static void registerClient() { FMLCommonHandler.instance().bus().register(ClientTickHandler.instance()); }

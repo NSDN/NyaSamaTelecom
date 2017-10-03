@@ -5,15 +5,13 @@ package club.nsdn.nyasamatelecom.Blocks;
  */
 
 import club.nsdn.nyasamatelecom.CreativeTab.CreativeTabLoader;
-import club.nsdn.nyasamatelecom.Event.TelecomCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
-import org.thewdj.telecom.ITransmitter;
 
 import java.util.Random;
 
-public class BlockTransmitter extends Block implements ITransmitter {
+public class BlockTransmitter extends Block {
 
     public BlockTransmitter() {
         super(Material.glass);
@@ -27,24 +25,18 @@ public class BlockTransmitter extends Block implements ITransmitter {
     }
 
     @Override
-    public Object[] collectData() {
-
-        return null;
-    }
-
-    @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
 
     }
 
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {
-        TelecomCore.instance().registerTransmitter(this, "");
+
     }
 
     @Override
     public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
-        TelecomCore.instance().disposeTransmitter("");
+
     }
 
 }

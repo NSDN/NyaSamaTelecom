@@ -12,7 +12,7 @@ import org.thewdj.telecom.IReceiver;
 
 import java.util.Random;
 
-public class BlockReceiver extends Block implements IReceiver {
+public class BlockReceiver extends Block {
 
     public BlockReceiver() {
         super(Material.glass);
@@ -23,11 +23,6 @@ public class BlockReceiver extends Block implements IReceiver {
         setStepSound(Block.soundTypeGlass);
         setResistance(5.0F);
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
-    }
-
-    @Override
-    public void distributeData(Object[] data) {
-
     }
 
     @Override

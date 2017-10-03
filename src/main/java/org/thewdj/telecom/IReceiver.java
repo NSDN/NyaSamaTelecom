@@ -1,8 +1,10 @@
 package org.thewdj.telecom;
 
 /**
- * Created by drzzm32 on 2016.10.8.
+ * Created by drzzm32 on 2016.9.12.
  */
-public interface IReceiver extends ISideable {
-    void distributeData(Object[] data);
+public interface IReceiver<Sender> extends IInitiative {
+    Sender getSender();
+    void setSender(Sender sender);
+    boolean senderIsPowered();
 }
