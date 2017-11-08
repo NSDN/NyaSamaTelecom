@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 public class BlockLoader {
 
     public static LinkedHashMap<String, Block> blocks;
+    public static Block logo;
 
     private static void register(Block block, String name) {
         GameRegistry.registerBlock(block, name);
@@ -21,9 +22,11 @@ public class BlockLoader {
     public BlockLoader(FMLPreInitializationEvent event) {
         blocks = new LinkedHashMap<String, Block>();
 
+        logo = new BlockNyaSamaTelecomLogo();
+        blocks.put("nst_BlockNyaSamaTelecomLogo", logo);
+
         blocks.put("nst_BlockSign", new BlockSign());
         blocks.put("nst_BlockNSDNLogo", new BlockNSDNLogo());
-        blocks.put("nst_BlockNyaSamaTelecomLogo", new BlockNyaSamaTelecomLogo());
         //blocks.put("BlockTransmitter", new BlockTransmitter());
         //blocks.put("BlockReceiver", new BlockReceiver());
         //blocks.put("BlockDebugger", new BlockDebugger());
