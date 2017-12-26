@@ -1,6 +1,8 @@
 package club.nsdn.nyasamatelecom.Items;
 
 import club.nsdn.nyasamatelecom.GUI.GuiPause;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,6 +25,13 @@ public class ItemNSASM extends ItemToolBase {
     public boolean onItemUse(ItemStack itemStack, final EntityPlayer player, World world, int x, int y, int z, int side, float px, float py, float pz) {
         if (!world.isRemote) return true;
 
+        showGUI(player);
+
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void showGUI(EntityPlayer player) {
         InputBox.getInstance().show(obj -> {
             if (obj != null) {
                 if (obj instanceof String) {
@@ -35,8 +44,6 @@ public class ItemNSASM extends ItemToolBase {
         Minecraft.getMinecraft().displayGuiScreen(new GuiPause(() -> {
             InputBox.getInstance().hide();
         }));
-
-        return true;
     }
 
 }
