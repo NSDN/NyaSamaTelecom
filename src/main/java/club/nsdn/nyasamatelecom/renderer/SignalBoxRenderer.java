@@ -1,9 +1,11 @@
 package club.nsdn.nyasamatelecom.renderer;
 
 import club.nsdn.nyasamatelecom.api.device.SignalBox;
+import club.nsdn.nyasamatelecom.api.device.SignalBoxGetter;
 import club.nsdn.nyasamatelecom.api.device.SignalBoxSender;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityActuator;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityMultiSender;
+import club.nsdn.nyasamatelecom.api.tileentity.TileEntityReceiver;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -23,7 +25,7 @@ public class SignalBoxRenderer extends TileEntitySpecialRenderer {
     );
     private final WavefrontObject modelBtn;
     private final WavefrontObject modelBtnLight;
-    private final ResourceLocation textureBase = new ResourceLocation("nyasamatelecom", "textures/blocks/signal_box_base.png");
+    private final ResourceLocation textureBase;
 
     private final WavefrontObject models[] = {
             new WavefrontObject(new ResourceLocation("nyasamatelecom", "models/blocks/signal_box_sign1.obj")),
@@ -43,13 +45,31 @@ public class SignalBoxRenderer extends TileEntitySpecialRenderer {
     private static final int SIGN_NONE = 3;
     private static final int SIGN_W = 4;
 
-    public SignalBoxRenderer(boolean isSender) {
-        if (isSender) {
+    public SignalBoxRenderer(boolean hasButton) {
+        textureBase = new ResourceLocation("nyasamatelecom", "textures/blocks/signal_box_base.png");
+
+        if (hasButton) {
             modelBtn = new WavefrontObject(
-                    new ResourceLocation("nyasamarailway", "models/blocks/signal_box_btn.obj")
+                    new ResourceLocation("nyasamatelecom", "models/blocks/signal_box_btn.obj")
             );
             modelBtnLight = new WavefrontObject(
-                    new ResourceLocation("nyasamarailway", "models/blocks/signal_box_btn_light.obj")
+                    new ResourceLocation("nyasamatelecom", "models/blocks/signal_box_btn_light.obj")
+            );
+        } else {
+            modelBtn = null;
+            modelBtnLight = null;
+        }
+    }
+
+    public SignalBoxRenderer(boolean hasButton, String texture) {
+        textureBase = new ResourceLocation("nyasamatelecom", "textures/blocks/" + texture + ".png");
+
+        if (hasButton) {
+            modelBtn = new WavefrontObject(
+                    new ResourceLocation("nyasamatelecom", "models/blocks/signal_box_btn.obj")
+            );
+            modelBtnLight = new WavefrontObject(
+                    new ResourceLocation("nyasamatelecom", "models/blocks/signal_box_btn_light.obj")
             );
         } else {
             modelBtn = null;
@@ -72,7 +92,17 @@ public class SignalBoxRenderer extends TileEntitySpecialRenderer {
             rxState = ((TileEntityActuator) te).getSender() != null;
             if (te instanceof SignalBox.TileEntitySignalBox) {
                 inverted = ((SignalBox.TileEntitySignalBox) te).inverterEnabled;
+                isEnabled = ((SignalBox.TileEntitySignalBox) te).isEnabled;
             }
+        } else if (te instanceof TileEntityReceiver) {
+            txState = false;
+            rxState = ((TileEntityReceiver) te).getSender() != null;
+            if (te instanceof SignalBoxGetter.TileEntitySignalBoxGetter) {
+                isEnabled = ((SignalBoxGetter.TileEntitySignalBoxGetter) te).isEnabled;
+            }
+        } else if (te instanceof TileEntityMultiSender && modelBtn == null) {
+            txState = ((TileEntityMultiSender) te).targetCount > 0;
+            rxState = false;
         } else if (te instanceof TileEntityMultiSender) {
             if (te instanceof SignalBoxSender.TileEntitySignalBoxSender) {
                 isEnabled = ((SignalBoxSender.TileEntitySignalBoxSender) te).isEnabled;

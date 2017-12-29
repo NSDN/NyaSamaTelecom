@@ -1,5 +1,6 @@
 package club.nsdn.nyasamatelecom.block;
 
+import club.nsdn.nyasamatelecom.tileblock.core.*;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -22,15 +23,19 @@ public class BlockLoader {
         blocks = new LinkedHashMap<String, Block>();
 
         logo = new BlockNyaSamaTelecomLogo();
-        blocks.put("nst_BlockNyaSamaTelecomLogo", logo);
+        blocks.put("nst_logo", logo);
 
-        blocks.put("nst_BlockSign", new BlockSign());
-        blocks.put("nst_BlockNSDNLogo", new BlockNSDNLogo());
+        blocks.put("nst_sign", new BlockSign());
+        blocks.put("nst_nsdn", new BlockNSDNLogo());
+
+        blocks.put("signal_box", new BlockSignalBox());
+        blocks.put("signal_box_sender", new BlockSignalBoxSender());
+        blocks.put("signal_box_getter", new BlockSignalBoxGetter());
+        blocks.put("tri_state_signal_box", new BlockTriStateSignalBox());
 
         for (String name : blocks.keySet()) {
             register(blocks.get(name), name);
         }
-
     }
 
 }

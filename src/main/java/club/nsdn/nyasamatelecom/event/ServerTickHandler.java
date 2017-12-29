@@ -7,8 +7,8 @@ import cpw.mods.fml.common.gameevent.TickEvent;
  * Created by drzzm32 on 2017.12.27.
  */
 public class ServerTickHandler {
-    private static ServerTickHandler instance;
 
+    private static ServerTickHandler instance;
 
     public static ServerTickHandler instance() {
         if (instance == null)
@@ -20,4 +20,5 @@ public class ServerTickHandler {
     public void tick(TickEvent.ServerTickEvent event) {
 
     }
+
 }

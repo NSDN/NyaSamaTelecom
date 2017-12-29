@@ -1,6 +1,9 @@
 package club.nsdn.nyasamatelecom.proxy;
 
+import club.nsdn.nyasamatelecom.NyaSamaTelecom;
 import club.nsdn.nyasamatelecom.event.EventRegister;
+import club.nsdn.nyasamatelecom.network.webservice.ITelecom;
+import club.nsdn.nyasamatelecom.network.webservice.TelecomImpl;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -14,6 +17,10 @@ public class ServerProxy extends CommonProxy {
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
+
+        NyaSamaTelecom.log.info("Loading WebService...");
+        ITelecom.publish(new TelecomImpl(), "http://0.0.0.0:32/api");
+        NyaSamaTelecom.log.info("WebService loaded.");
     }
 
     @Override
