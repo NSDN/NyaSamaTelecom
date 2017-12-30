@@ -69,11 +69,6 @@ public class TelecomProcessor {
         return info.dev() != null;
     }
 
-    private void register(String id, DeviceInfo info) {
-        if (devices.containsKey(id)) devices.remove(id);
-        devices.put(id, info);
-    }
-
     private String getDomain(String id) {
         if (id.split("\\.").length < 3) return id;
         return id.split("\\.")[0] + "." + id.split("\\.")[1];
@@ -91,13 +86,18 @@ public class TelecomProcessor {
     }
 
     public DeviceInfo device(String id) {
-        if (locks.contains(getDomain(id))) return null;
         if (!devices.containsKey(id)) return null;
         return devices.get(id);
     }
 
+    private void register(String id, DeviceInfo info) {
+        if (devices.containsKey(id)) devices.remove(id);
+        devices.put(id, info);
+    }
+
     public void register(IWireless<? extends TileEntity> device) {
         if (device.me() == null) return;
+        if (device.id().equals("null") || device.key().equals("null")) return;
 
         DeviceInfo info = new DeviceInfo();
         info.key = device.key();

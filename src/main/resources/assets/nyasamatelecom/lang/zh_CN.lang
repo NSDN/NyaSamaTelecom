@@ -18,11 +18,20 @@ info.signal.box.inverter.off=[NST] 中继执行器内部反相器停止使能
 info.signal.box.inverter.on=[NST] 中继执行器内部反相器使能
 info.signal.box.triState.pos=[NST] 三态执行器设为正态
 info.signal.box.triState.neg=[NST] 三态执行器设为负态
+info.signal.box.wireless.id=[NST] 无线收发器设备名为 %s
+info.signal.box.wireless.key=[NST] 无线收发器识别码为 %s
+info.signal.box.wireless.set=[NST] 无线收发器配置已更改
 
 tile.BlockSignalBox.name=中继执行器
 tile.BlockSignalBoxSender.name=中继发射器
 tile.BlockSignalBoxGetter.name=接收指示器
 tile.BlockTriStateSignalBox.name=三态执行器
+
+tile.BlockRedInput.name=红石输入器
+tile.BlockRedOutput.name=红石输出器
+
+tile.BlockWirelessRx.name=无线接收器
+tile.BlockWirelessTx.name=无线发射器
 
 item.ItemConnector.name=连接器
 item.ItemDevEditor.name=设备编辑器

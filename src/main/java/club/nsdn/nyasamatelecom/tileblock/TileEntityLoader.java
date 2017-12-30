@@ -1,6 +1,8 @@
 package club.nsdn.nyasamatelecom.tileblock;
 
 import club.nsdn.nyasamatelecom.tileblock.core.*;
+import club.nsdn.nyasamatelecom.tileblock.redstone.*;
+import club.nsdn.nyasamatelecom.tileblock.wireless.*;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.tileentity.TileEntity;
@@ -25,6 +27,12 @@ public class TileEntityLoader {
         tileEntities.put("tileSignalBoxSender", BlockSignalBoxSender.TileEntitySignalBoxSender.class);
         tileEntities.put("tileSignalBoxGetter", BlockSignalBoxGetter.TileEntitySignalBoxGetter.class);
         tileEntities.put("tileTriStateSignalBox", BlockTriStateSignalBox.TileEntityTriStateSignalBox.class);
+
+        tileEntities.put("tileRedInput", BlockRedInput.TileEntitySignalBoxSender.class);
+        tileEntities.put("tileRedOutput", BlockRedOutput.TileEntitySignalBoxGetter.class);
+
+        tileEntities.put("tileWirelessRx", BlockWirelessRx.TileEntityWirelessRx.class);
+        tileEntities.put("tileWirelessTx", BlockWirelessTx.TileEntityWirelessTx.class);
 
         for (String name : tileEntities.keySet()) {
             register(tileEntities.get(name), name);

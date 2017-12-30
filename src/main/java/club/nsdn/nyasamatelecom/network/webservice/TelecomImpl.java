@@ -41,7 +41,7 @@ public class TelecomImpl implements ITelecom {
         public String make(boolean state) {
             return (
                     String.format("finished:%s\n", finished) +
-                    (info == null ? "info:null" : String.format("info.dimension:%d\n", info.dimension)) +
+                    (info == null ? "info:null\n" : String.format("info.dimension:%d\n", info.dimension)) +
                     (info == null ? "" : String.format("info.pos:(%d,%d,%d)\n", info.x, info.y, info.z)) +
                     (info == null ? "" : String.format("info.state:%s\n", state)) +
                     String.format("message:%s\n", message)
@@ -76,10 +76,17 @@ public class TelecomImpl implements ITelecom {
             @WebParam(name = "id") String id,
             @WebParam(name = "key") String key
     ) {
-        if (!verifyToken(token)) return new Result(false, null, "Token is incorrect").make();
+        if (!verifyToken(token)) {
+            return new Result(false, null, "Token is incorrect").make();
+        }
+
         TelecomProcessor.DeviceInfo info = TelecomProcessor.instance().device(id);
-        if (info == null) return new Result(false, null, "No device found").make();
-        if (!info.key.equals(key)) return new Result(false, info, "Key is incorrect").make();
+        if (info == null) {
+            return new Result(false, null, "No device found").make();
+        }
+        if (!info.key.equals(key)) {
+            return new Result(false, info, "Key is incorrect").make();
+        }
         if (info.dev() instanceof IWirelessTx) {
             boolean state = ((IWirelessTx) info.dev()).getState();
             return new Result(true, info, "Operation finished").make(state);
@@ -96,14 +103,31 @@ public class TelecomImpl implements ITelecom {
             @WebParam(name = "key") String key,
             @WebParam(name = "state") boolean state
     ) {
-        if (!verifyToken(token)) return new Result(false, null, "Token is incorrect").make();
+        if (!verifyToken(token)) {
+            return new Result(false, null, "Token is incorrect").make();
+        }
+
+        if (!TelecomProcessor.instance().lock(id)) {
+            return new Result(false, null, "Device had been locked").make();
+        }
+
         TelecomProcessor.DeviceInfo info = TelecomProcessor.instance().device(id);
-        if (info == null) return new Result(false, null, "No device found").make();
-        if (!info.key.equals(key)) return new Result(false, info, "Key is incorrect").make();
+        if (info == null) {
+            TelecomProcessor.instance().unlock(id);
+            return new Result(false, null, "No device found").make();
+        }
+        if (!info.key.equals(key)) {
+            TelecomProcessor.instance().unlock(id);
+            return new Result(false, info, "Key is incorrect").make();
+        }
         if (info.dev() instanceof IWirelessRx) {
+            /* TODO: may cause bug without lock */
             ((IWirelessRx) info.dev()).setState(state);
+            TelecomProcessor.instance().unlock(id);
             return new Result(true, info, "Operation finished").make();
         }
+
+        TelecomProcessor.instance().unlock(id);
         return new Result(false, info, "Device type error").make();
     }
 

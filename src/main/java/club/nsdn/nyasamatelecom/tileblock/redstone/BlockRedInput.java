@@ -4,6 +4,7 @@ import club.nsdn.nyasamatelecom.NyaSamaTelecom;
 import club.nsdn.nyasamatelecom.api.device.SignalBoxSender;
 import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 /**
@@ -11,8 +12,16 @@ import net.minecraft.world.World;
  */
 public class BlockRedInput extends SignalBoxSender {
 
+    public static class TileEntitySignalBoxSender extends SignalBoxSender.TileEntitySignalBoxSender {
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World world, int meta) {
+        return new TileEntitySignalBoxSender();
+    }
+
     public BlockRedInput() {
-        super(NyaSamaTelecom.MODID, "BlockSignalBoxSender", "signal_box_sender");
+        super(NyaSamaTelecom.MODID, "BlockRedInput", "signal_box_input");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 
@@ -51,7 +60,7 @@ public class BlockRedInput extends SignalBoxSender {
     }
 
     public boolean inputRedstone(World world, int x , int y, int z) {
-        return false;
+        return world.isBlockIndirectlyGettingPowered(x, y, z);
     }
 
 }
