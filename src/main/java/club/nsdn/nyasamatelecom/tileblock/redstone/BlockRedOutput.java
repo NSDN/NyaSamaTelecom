@@ -26,6 +26,11 @@ public class BlockRedOutput extends SignalBoxGetter {
     }
 
     @Override
+    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side) {
+        return true;
+    }
+
+    @Override
     public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int direction) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity instanceof TileEntitySignalBoxGetter) {

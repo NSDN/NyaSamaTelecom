@@ -5,6 +5,7 @@ import club.nsdn.nyasamatelecom.api.device.SignalBoxSender;
 import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 /**
@@ -28,6 +29,11 @@ public class BlockRedInput extends SignalBoxSender {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         return false;
+    }
+
+    @Override
+    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side) {
+        return true;
     }
 
     @Override

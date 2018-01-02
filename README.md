@@ -10,4 +10,4 @@ Modelling with Techne
 Copy from NyaSamaRailway
 
 ## Other
-Copyright (C) NSDN 2014 - 2017
+Copyright (C) NSDN 2014 - 2018

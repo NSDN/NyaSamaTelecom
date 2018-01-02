@@ -22,6 +22,10 @@ info.signal.box.wireless.id=[NST] 无线收发器设备名为 %s
 info.signal.box.wireless.key=[NST] 无线收发器识别码为 %s
 info.signal.box.wireless.set=[NST] 无线收发器配置已更改
 
+info.nsasm.set=[NST] 可编程执行器程序已更新
+info.nsasm.reset=[NST] 可编程执行器已复位
+
+tile.BlockNSASMBox.name=可编程执行器
 tile.BlockSignalBox.name=中继执行器
 tile.BlockSignalBoxSender.name=中继发射器
 tile.BlockSignalBoxGetter.name=接收指示器

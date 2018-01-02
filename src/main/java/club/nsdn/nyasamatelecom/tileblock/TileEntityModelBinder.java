@@ -25,6 +25,7 @@ public class TileEntityModelBinder {
     public TileEntityModelBinder(FMLInitializationEvent event) {
         renderers = new LinkedHashMap<Class<? extends TileEntity>, TileEntitySpecialRenderer>();
 
+        renderers.put(BlockNSASMBox.TileEntityNSASMBox.class, new SignalBoxRenderer(false, "nsasm_box_base"));
         renderers.put(BlockSignalBox.TileEntitySignalBox.class, new SignalBoxRenderer(false));
         renderers.put(BlockSignalBoxSender.TileEntitySignalBoxSender.class, new SignalBoxRenderer(true));
         renderers.put(BlockSignalBoxGetter.TileEntitySignalBoxGetter.class, new SignalBoxRenderer(false, "signal_box_gt"));

@@ -31,6 +31,7 @@ public class BlockLoader {
         blocks.put("nst_sign", new BlockSign());
         blocks.put("nst_nsdn", new BlockNSDNLogo());
 
+        blocks.put("nsasm_box", new BlockNSASMBox());
         blocks.put("signal_box", new BlockSignalBox());
         blocks.put("signal_box_sender", new BlockSignalBoxSender());
         blocks.put("signal_box_getter", new BlockSignalBoxGetter());
