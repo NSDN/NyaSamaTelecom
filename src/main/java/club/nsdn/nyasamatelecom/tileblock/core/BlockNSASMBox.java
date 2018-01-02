@@ -7,7 +7,6 @@ import club.nsdn.nyasamatelecom.api.util.NSASM;
 import club.nsdn.nyasamatelecom.api.util.Util;
 import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
 import club.nsdn.nyasamatelecom.network.NetworkWrapper;
-import club.nsdn.nyasamatelecom.util.Utility;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,7 +16,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.LinkedHashMap;
@@ -40,6 +38,7 @@ public class BlockNSASMBox extends SignalBox {
         public void fromNBT(NBTTagCompound tagCompound) {
             nsasmState = tagCompound.getInteger("nsasmState");
             nsasmCode = tagCompound.getString("nsasmCode");
+            if (nsasmState == NSASM_LOOP) nsasmState = NSASM_NULL;
             super.fromNBT(tagCompound);
         }
 
@@ -275,17 +274,23 @@ public class BlockNSASMBox extends SignalBox {
         if (world.getTileEntity(x, y, z) instanceof TileEntityNSASMBox) {
             TileEntityNSASMBox box = (TileEntityNSASMBox) world.getTileEntity(x, y, z);
             if (!world.isRemote) {
-                ItemStack stack = player.getCurrentEquippedItem();
-                if (stack != null) {
+                ItemStack stack;
 
-                    if (stack.getItem() != null) {
-                        if (stack.getItem() instanceof NGTablet && player.isSneaking()) {
+                if (player.isSneaking()) {
+                    for (int i = 0; i < 9; i++) {
+                        stack = player.inventory.mainInventory[i];
+                        if (stack == null) continue;
+                        if (stack.getItem() == null) continue;
+                        if (stack.getItem() instanceof NGTablet) {
                             box.nsasmState = TileEntityNSASMBox.NSASM_NULL;
                             player.addChatComponentMessage(new ChatComponentTranslation("info.nsasm.reset"));
                             return true;
                         }
                     }
+                }
 
+                stack = player.getCurrentEquippedItem();
+                if (stack != null) {
                     NBTTagList list = Util.getTagListFromNGT(stack);
                     if (list == null) return true;
                     String code = NSASM.getCodeString(list);
