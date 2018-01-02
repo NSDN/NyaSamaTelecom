@@ -275,14 +275,16 @@ public class BlockNSASMBox extends SignalBox {
         if (world.getTileEntity(x, y, z) instanceof TileEntityNSASMBox) {
             TileEntityNSASMBox box = (TileEntityNSASMBox) world.getTileEntity(x, y, z);
             if (!world.isRemote) {
-                if (player.isSneaking()) {
-                    box.nsasmState = TileEntityNSASMBox.NSASM_NULL;
-                    player.addChatComponentMessage(new ChatComponentTranslation("info.nsasm.reset"));
-                    return true;
-                }
-
                 ItemStack stack = player.getCurrentEquippedItem();
                 if (stack != null) {
+
+                    if (stack.getItem() != null) {
+                        if (stack.getItem() instanceof NGTablet && player.isSneaking()) {
+                            box.nsasmState = TileEntityNSASMBox.NSASM_NULL;
+                            player.addChatComponentMessage(new ChatComponentTranslation("info.nsasm.reset"));
+                            return true;
+                        }
+                    }
 
                     NBTTagList list = Util.getTagListFromNGT(stack);
                     if (list == null) return true;
