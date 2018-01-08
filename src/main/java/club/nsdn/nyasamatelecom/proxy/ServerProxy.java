@@ -19,8 +19,12 @@ public class ServerProxy extends CommonProxy {
         super.preInit(event);
 
         NyaSamaTelecom.log.info("Loading WebService...");
-        ITelecom.publish(new TelecomImpl(), "http://0.0.0.0:32/api");
-        NyaSamaTelecom.log.info("WebService loaded.");
+        try {
+            ITelecom.publish(new TelecomImpl(), "http://0.0.0.0:32/api");
+            NyaSamaTelecom.log.info("WebService loaded.");
+        } catch (Exception e) {
+            NyaSamaTelecom.log.info("WebService failed to load: " + e.getMessage());
+        }
     }
 
     @Override
