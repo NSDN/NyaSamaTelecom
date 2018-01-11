@@ -17,7 +17,7 @@ public class NyaSamaTelecom {
     @Mod.Instance("NyaSamaTelecom")
     public static NyaSamaTelecom instance;
     public static final String MODID = "NyaSamaTelecom";
-    public static final String VERSION = "0.1";
+    public static final String VERSION = "0.2";
     public static final boolean isDebug = false;
     public static Logger log = LogManager.getLogger(MODID);
 
