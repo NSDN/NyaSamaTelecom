@@ -1,8 +1,6 @@
 package club.nsdn.nyasamatelecom.network.webservice;
 
-import club.nsdn.nyasamatelecom.event.TelecomProcessor;
-import org.thewdj.telecom.IWirelessRx;
-import org.thewdj.telecom.IWirelessTx;
+import club.nsdn.nyasamatelecom.util.TelecomProcessor;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -87,8 +85,8 @@ public class TelecomImpl implements ITelecom {
         if (!info.key.equals(key)) {
             return new Result(false, info, "Key is incorrect").make();
         }
-        if (info.dev() instanceof IWirelessTx) {
-            boolean state = ((IWirelessTx) info.dev()).getState();
+        if (TelecomProcessor.instance().isTx(info)) {
+            boolean state = TelecomProcessor.instance().get(info);
             return new Result(true, info, "Operation finished").make(state);
         }
         return new Result(false, info, "Device type error").make();
@@ -107,27 +105,18 @@ public class TelecomImpl implements ITelecom {
             return new Result(false, null, "Token is incorrect").make();
         }
 
-        if (!TelecomProcessor.instance().lock(id)) {
-            return new Result(false, null, "Device had been locked").make();
-        }
-
         TelecomProcessor.DeviceInfo info = TelecomProcessor.instance().device(id);
         if (info == null) {
-            TelecomProcessor.instance().unlock(id);
             return new Result(false, null, "No device found").make();
         }
         if (!info.key.equals(key)) {
-            TelecomProcessor.instance().unlock(id);
             return new Result(false, info, "Key is incorrect").make();
         }
-        if (info.dev() instanceof IWirelessRx) {
-            /* TODO: may cause bug without lock */
-            ((IWirelessRx) info.dev()).setState(state);
-            TelecomProcessor.instance().unlock(id);
+        if (TelecomProcessor.instance().isRx(info)) {
+            TelecomProcessor.instance().set(info, state);
             return new Result(true, info, "Operation finished").make();
         }
 
-        TelecomProcessor.instance().unlock(id);
         return new Result(false, info, "Device type error").make();
     }
 

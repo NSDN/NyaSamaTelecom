@@ -6,7 +6,7 @@ import club.nsdn.nyasamatelecom.api.tileentity.TileEntityTransceiver;
 import club.nsdn.nyasamatelecom.api.util.NSASM;
 import club.nsdn.nyasamatelecom.api.util.Util;
 import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
-import club.nsdn.nyasamatelecom.event.TelecomProcessor;
+import club.nsdn.nyasamatelecom.util.TelecomProcessor;
 import club.nsdn.nyasamatelecom.network.NetworkWrapper;
 import club.nsdn.nyasamatelecom.util.Utility;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import org.thewdj.telecom.IWirelessTx;
 
 import java.util.LinkedHashMap;
+import java.util.Random;
 
 /**
  * Created by drzzm32 on 2017.12.29.
@@ -84,6 +85,19 @@ public class BlockWirelessTx extends SignalBoxGetter {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity instanceof TileEntityWirelessTx) {
             TelecomProcessor.instance().register((TileEntityWirelessTx) tileEntity);
+        }
+    }
+
+    @Override
+    public void updateTick(World world, int x, int y, int z, Random random) {
+        super.updateTick(world, x, y, z, random);
+
+        if (!world.isRemote) {
+            TileEntity tileEntity = world.getTileEntity(x, y, z);
+            if (tileEntity == null) return;
+            if (tileEntity instanceof TileEntityWirelessTx) {
+                TelecomProcessor.instance().register((TileEntityWirelessTx) tileEntity);
+            }
         }
     }
 

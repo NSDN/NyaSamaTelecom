@@ -1,5 +1,6 @@
 package club.nsdn.nyasamatelecom.event;
 
+import club.nsdn.nyasamatelecom.util.TelecomProcessor;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 
@@ -18,7 +19,7 @@ public class ServerTickHandler {
 
     @SubscribeEvent
     public void tick(TickEvent.ServerTickEvent event) {
-
+        TelecomProcessor.instance().update();
     }
 
 }

@@ -6,6 +6,7 @@ import club.nsdn.nyasamatelecom.api.tool.NGTablet;
 import club.nsdn.nyasamatelecom.api.util.NSASM;
 import club.nsdn.nyasamatelecom.api.util.Util;
 import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
+import club.nsdn.nyasamatelecom.util.TelecomProcessor;
 import club.nsdn.nyasamatelecom.network.NetworkWrapper;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -97,6 +98,14 @@ public class BlockNSASMBox extends SignalBox {
             }
         }
 
+        private void prt(String str) {
+            Register result = new Register();
+            result.type = RegType.STR; result.strPtr = 0;
+            result.readOnly = true;
+            result.data = str;
+            funcList.get("prt").run(result, null);
+        }
+
         @Override
         public EntityPlayer getPlayer() {
             if (getWorld() == null) return null;
@@ -132,21 +141,50 @@ public class BlockNSASMBox extends SignalBox {
         public void loadFunc(LinkedHashMap<String, Operator> funcList) {
             funcList.replace("in", (dst, src) -> {
                 if (dst == null) return Result.ERR;
-                if (src != null) return Result.ERR;
                 if (dst.readOnly) return Result.ERR;
-                if (getBox() == null) return Result.ERR;
 
-                if (dst.type == RegType.INT) {
-                    dst.data = getBox().isEnabled ? 1 : 0;
-                    return Result.OK;
-                }
-                if (dst.type == RegType.FLOAT) {
-                    dst.data = getBox().isEnabled ? 1.0F: 0.0F;
-                    return Result.OK;
-                }
-                if (dst.type == RegType.CHAR) {
-                    dst.data = getBox().isEnabled ? 1 : 0;
-                    return Result.OK;
+                if (src == null) {
+                    if (getBox() == null) return Result.ERR;
+
+                    if (dst.type == RegType.INT) {
+                        dst.data = getBox().isEnabled ? 1 : 0;
+                        return Result.OK;
+                    }
+                    if (dst.type == RegType.FLOAT) {
+                        dst.data = getBox().isEnabled ? 1.0F: 0.0F;
+                        return Result.OK;
+                    }
+                    if (dst.type == RegType.CHAR) {
+                        dst.data = getBox().isEnabled ? 1 : 0;
+                        return Result.OK;
+                    }
+                } else {
+                    if (src.type != RegType.STR) return Result.ERR;
+
+                    TelecomProcessor.DeviceInfo info;
+                    info = TelecomProcessor.instance().device((String) src.data);
+                    if (info == null) {
+                        prt("[NST] Device Not Found: " + src.data);
+                        return Result.OK;
+                    }
+                    if (!TelecomProcessor.instance().isTx(info)) {
+                        prt("[NST] Device Type Error: " + src.data);
+                        return Result.OK;
+                    }
+
+                    boolean state = TelecomProcessor.instance().get(info);
+                    if (dst.type == RegType.INT) {
+                        dst.data = state ? 1 : 0;
+                        return Result.OK;
+                    }
+                    if (dst.type == RegType.FLOAT) {
+                        dst.data = state ? 1.0F: 0.0F;
+                        return Result.OK;
+                    }
+                    if (dst.type == RegType.CHAR) {
+                        dst.data = state ? 1 : 0;
+                        return Result.OK;
+                    }
                 }
 
                 return Result.ERR;
@@ -154,20 +192,48 @@ public class BlockNSASMBox extends SignalBox {
 
             funcList.replace("out", (dst, src) -> {
                 if (dst == null) return Result.ERR;
-                if (src != null) return Result.ERR;
-                if (getBox() == null) return Result.ERR;
 
-                if (dst.type == RegType.INT) {
-                    doOutput(getBox(), ((int) dst.data) > 0);
-                    return Result.OK;
-                }
-                if (dst.type == RegType.FLOAT) {
-                    doOutput(getBox(), ((float) dst.data) > 0);
-                    return Result.OK;
-                }
-                if (dst.type == RegType.CHAR) {
-                    doOutput(getBox(), ((char) dst.data) > 0);
-                    return Result.OK;
+                if (src == null) {
+                    if (getBox() == null) return Result.ERR;
+
+                    if (dst.type == RegType.INT) {
+                        doOutput(getBox(), ((int) dst.data) > 0);
+                        return Result.OK;
+                    }
+                    if (dst.type == RegType.FLOAT) {
+                        doOutput(getBox(), ((float) dst.data) > 0);
+                        return Result.OK;
+                    }
+                    if (dst.type == RegType.CHAR) {
+                        doOutput(getBox(), ((char) dst.data) > 0);
+                        return Result.OK;
+                    }
+                } else {
+                    if (dst.type != RegType.STR) return Result.ERR;
+
+                    TelecomProcessor.DeviceInfo info;
+                    info = TelecomProcessor.instance().device((String) dst.data);
+                    if (info == null) {
+                        prt("[NST] Device Not Found: " + dst.data);
+                        return Result.OK;
+                    }
+                    if (!TelecomProcessor.instance().isRx(info)) {
+                        prt("[NST] Device Type Error: " + dst.data);
+                        return Result.OK;
+                    }
+
+                    if (src.type == RegType.INT) {
+                        TelecomProcessor.instance().set(info, ((int) src.data) > 0);
+                        return Result.OK;
+                    }
+                    if (src.type == RegType.FLOAT) {
+                        TelecomProcessor.instance().set(info, ((float) src.data) > 0);
+                        return Result.OK;
+                    }
+                    if (src.type == RegType.CHAR) {
+                        TelecomProcessor.instance().set(info, ((char) src.data) > 0);
+                        return Result.OK;
+                    }
                 }
 
                 return Result.OK;
