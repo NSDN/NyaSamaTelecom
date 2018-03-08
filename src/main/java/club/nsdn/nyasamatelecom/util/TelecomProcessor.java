@@ -60,7 +60,8 @@ public class TelecomProcessor {
     }
 
     public void update() {
-        lock.lock();
+        if (!lock.tryLock()) return;
+
         devices.forEach((id, info) -> {
             if (checkDevice(info)) {
                 if (info.dev() instanceof IWirelessRx) {
@@ -83,7 +84,6 @@ public class TelecomProcessor {
                 }
             }
         });
-        lock.unlock();
 
         if (gcCounter < 20) gcCounter += 1;
         else {
@@ -91,10 +91,11 @@ public class TelecomProcessor {
 
             gc();
         }
+
+        lock.unlock();
     }
 
     private void gc() {
-        lock.lock();
         if (devices.isEmpty()) return;
 
         cache.clear(); cache.putAll(devices);
@@ -107,7 +108,6 @@ public class TelecomProcessor {
                     outputs.remove(info);
             }
         });
-        lock.unlock();
     }
 
     private boolean checkDevice(DeviceInfo info) {

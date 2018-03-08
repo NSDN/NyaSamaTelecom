@@ -96,7 +96,9 @@ public class BlockWirelessRx extends SignalBoxSender {
             TileEntity tileEntity = world.getTileEntity(x, y, z);
             if (tileEntity == null) return;
             if (tileEntity instanceof TileEntityWirelessRx) {
-                TelecomProcessor.instance().register((TileEntityWirelessRx) tileEntity);
+                TileEntityWirelessRx dev = (TileEntityWirelessRx) tileEntity;
+                if (TelecomProcessor.instance().device(dev.id) == null)
+                    TelecomProcessor.instance().register(dev);
             }
         }
     }

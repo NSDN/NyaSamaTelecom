@@ -7,18 +7,19 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 /**
  * Created by drzzm32 on 2017.12.27.
  */
-public class ServerTickHandler {
+public class TelecomHandler {
 
-    private static ServerTickHandler instance;
+    private static TelecomHandler instance;
 
-    public static ServerTickHandler instance() {
+    public static TelecomHandler instance() {
         if (instance == null)
-            instance = new ServerTickHandler();
+            instance = new TelecomHandler();
         return instance;
     }
 
     @SubscribeEvent
     public void tick(TickEvent.ServerTickEvent event) {
+        TelecomProcessor.instance().update();
     }
 
 }
