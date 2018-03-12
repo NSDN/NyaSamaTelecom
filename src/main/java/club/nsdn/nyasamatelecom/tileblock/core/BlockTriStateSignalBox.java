@@ -30,7 +30,7 @@ public class BlockTriStateSignalBox extends TriStateSignalBox {
     }
 
     public BlockTriStateSignalBox() {
-        super(NyaSamaTelecom.MODID, "BlockTriStateSignalBox", "tri_state_signal_box");
+        super(NyaSamaTelecom.modid, "BlockTriStateSignalBox", "tri_state_signal_box");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 

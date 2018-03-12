@@ -42,7 +42,7 @@ public class BlockSignalBox extends SignalBox {
     }
 
     public BlockSignalBox() {
-        super(NyaSamaTelecom.MODID, "BlockSignalBox", "signal_box");
+        super(NyaSamaTelecom.modid, "BlockSignalBox", "signal_box");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 

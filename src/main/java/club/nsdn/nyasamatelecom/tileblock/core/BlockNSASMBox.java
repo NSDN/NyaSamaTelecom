@@ -257,7 +257,7 @@ public class BlockNSASMBox extends SignalBox {
     }
 
     public BlockNSASMBox() {
-        super(NyaSamaTelecom.MODID, "BlockNSASMBox", "nsasm_box");
+        super(NyaSamaTelecom.modid, "BlockNSASMBox", "nsasm_box");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 

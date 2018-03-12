@@ -7,8 +7,9 @@ import net.minecraft.block.Block;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
+import cn.ac.nya.nspga.*;
+
 import java.util.Hashtable;
-import java.util.LinkedHashMap;
 
 /**
  * Created by drzzm32 on 2016.10.8.
@@ -30,6 +31,9 @@ public class BlockLoader {
 
         blocks.put("nst_sign", new BlockSign());
         blocks.put("nst_nsdn", new BlockNSDNLogo());
+
+        blocks.put("nspga_t0c0", new BlockNSPGA(NSPGAT0C0.class, "BlockNSPGAT0C0", "nspga_t0c0i8o8r0"));
+        blocks.put("nspga_t4c4", new BlockNSPGA(NSPGAT4C4.class, "BlockNSPGAT4C4", "nspga_t4c4i8o8r0"));
 
         blocks.put("nsasm_box", new BlockNSASMBox());
         blocks.put("signal_box", new BlockSignalBox());

@@ -21,7 +21,7 @@ public class BlockRedOutput extends SignalBoxGetter {
     }
 
     public BlockRedOutput() {
-        super(NyaSamaTelecom.MODID, "BlockRedOutput", "signal_box_output");
+        super(NyaSamaTelecom.modid, "BlockRedOutput", "signal_box_output");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 

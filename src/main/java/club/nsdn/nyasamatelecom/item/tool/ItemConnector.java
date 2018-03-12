@@ -10,7 +10,7 @@ import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
 public class ItemConnector extends Connector {
 
     public ItemConnector() {
-        super(NyaSamaTelecom.MODID, "ItemConnector", "item_connector");
+        super(NyaSamaTelecom.modid, "ItemConnector", "item_connector");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 

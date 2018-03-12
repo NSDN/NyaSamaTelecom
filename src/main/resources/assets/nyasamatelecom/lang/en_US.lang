@@ -24,6 +24,11 @@ info.signal.box.wireless.set=[NST] Wireless Box's config had modified
 
 info.nsasm.set=[NST] NSASM's code had flashed
 info.nsasm.reset=[NST] NSASM had reset
+info.nspga.set=[NST] NSPGA's flash had flashed
+info.nspga.reset=[NST] NSPGA had erased
+
+tile.BlockNSPGAT0C0.name=NSPGAT0C0-I8O8-R0
+tile.BlockNSPGAT4C4.name=NSPGAT4C4-I8O8-R0
 
 tile.BlockNSASMBox.name=NSASM Box
 tile.BlockSignalBox.name=Signal Box

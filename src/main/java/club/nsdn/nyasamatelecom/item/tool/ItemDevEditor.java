@@ -10,7 +10,7 @@ import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
 public class ItemDevEditor extends DevEditor {
 
     public ItemDevEditor() {
-        super(NyaSamaTelecom.MODID, "ItemDevEditor", "item_dev_editor");
+        super(NyaSamaTelecom.modid, "ItemDevEditor", "item_dev_editor");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 

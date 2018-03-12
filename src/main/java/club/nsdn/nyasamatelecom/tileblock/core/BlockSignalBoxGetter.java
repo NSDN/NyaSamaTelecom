@@ -20,7 +20,7 @@ public class BlockSignalBoxGetter extends SignalBoxGetter {
     }
 
     public BlockSignalBoxGetter() {
-        super(NyaSamaTelecom.MODID, "BlockSignalBoxGetter", "signal_box_getter");
+        super(NyaSamaTelecom.modid, "BlockSignalBoxGetter", "signal_box_getter");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 

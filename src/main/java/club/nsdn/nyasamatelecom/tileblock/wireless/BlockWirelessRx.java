@@ -74,7 +74,7 @@ public class BlockWirelessRx extends SignalBoxSender {
     }
 
     public BlockWirelessRx() {
-        super(NyaSamaTelecom.MODID, "BlockWirelessRx", "signal_box_rx");
+        super(NyaSamaTelecom.modid, "BlockWirelessRx", "signal_box_rx");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 

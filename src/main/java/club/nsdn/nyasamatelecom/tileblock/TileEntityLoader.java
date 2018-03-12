@@ -23,6 +23,7 @@ public class TileEntityLoader {
     public TileEntityLoader(FMLInitializationEvent event) {
         tileEntities = new LinkedHashMap<String, Class<? extends TileEntity>>();
 
+        tileEntities.put("tileNSPGA", BlockNSPGA.TileEntityNSPGA.class);
         tileEntities.put("tileNSASMBox", BlockNSASMBox.TileEntityNSASMBox.class);
         tileEntities.put("tileSignalBox", BlockSignalBox.TileEntitySignalBox.class);
         tileEntities.put("tileSignalBoxSender", BlockSignalBoxSender.TileEntitySignalBoxSender.class);

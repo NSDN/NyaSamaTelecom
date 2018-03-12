@@ -22,7 +22,7 @@ public class BlockRedInput extends SignalBoxSender {
     }
 
     public BlockRedInput() {
-        super(NyaSamaTelecom.MODID, "BlockRedInput", "signal_box_input");
+        super(NyaSamaTelecom.modid, "BlockRedInput", "signal_box_input");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 

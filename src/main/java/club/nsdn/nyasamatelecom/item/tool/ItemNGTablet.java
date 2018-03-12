@@ -11,7 +11,7 @@ import club.nsdn.nyasamatelecom.network.NetworkWrapper;
 public class ItemNGTablet extends NGTablet {
 
     public ItemNGTablet() {
-        super(NyaSamaTelecom.MODID, NetworkWrapper.instance, "ItemNGTablet", "item_ngt");
+        super(NyaSamaTelecom.modid, NetworkWrapper.instance, "ItemNGTablet", "item_ngt");
         setCreativeTab(CreativeTabLoader.tabNyaSamaTelecom);
     }
 
