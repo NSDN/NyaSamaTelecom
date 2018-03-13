@@ -289,7 +289,7 @@ public class BlockNSPGA extends SignalBox {
     }
 
     @SideOnly(Side.CLIENT)
-    public ResourceLocation texturePrint = null;
+    public ResourceLocation texturePrint;
 
     public final String name;
 
