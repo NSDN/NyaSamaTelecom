@@ -135,7 +135,7 @@ public class SignalBoxSender extends DeviceBase {
 
     @Override
     public int tickRate(World world) {
-        return 10;
+        return 20;
     }
 
     @Override

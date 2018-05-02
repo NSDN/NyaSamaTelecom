@@ -36,6 +36,10 @@ public class TileEntityLoader {
         tileEntities.put("tileWirelessRx", BlockWirelessRx.TileEntityWirelessRx.class);
         tileEntities.put("tileWirelessTx", BlockWirelessTx.TileEntityWirelessTx.class);
 
+        tileEntities.put("tileRSLatch", BlockRSLatch.TileEntityRSLatch.class);
+        tileEntities.put("tileTimer", BlockTimer.TileEntityTimer.class);
+        tileEntities.put("tileDelayer", BlockDelayer.TileEntityDelayer.class);
+
         for (String name : tileEntities.keySet()) {
             register(tileEntities.get(name), name);
         }

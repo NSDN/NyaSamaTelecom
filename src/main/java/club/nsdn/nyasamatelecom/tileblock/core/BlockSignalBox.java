@@ -51,12 +51,13 @@ public class BlockSignalBox extends SignalBox {
         if (world.getTileEntity(x, y, z) == null) return false;
         if (world.getTileEntity(x, y, z) instanceof TileEntitySignalBox) {
             TileEntitySignalBox box = (TileEntitySignalBox) world.getTileEntity(x, y, z);
-            if (!world.isRemote) {
-                ItemStack stack = player.getCurrentEquippedItem();
-                if (stack != null) {
 
-                    NBTTagList list = Util.getTagListFromNGT(stack);
-                    if (list == null) return true;
+            ItemStack stack = player.getCurrentEquippedItem();
+            if (stack != null) {
+                NBTTagList list = Util.getTagListFromNGT(stack);
+                if (list == null) return false;
+
+                if (!world.isRemote) {
                     String[][] code = NSASM.getCode(list);
                     new NSASM(code) {
                         @Override
@@ -105,10 +106,10 @@ public class BlockSignalBox extends SignalBox {
                             });
                         }
                     }.run();
-
                 }
+
+                return true;
             }
-            return true;
         }
 
         return false;

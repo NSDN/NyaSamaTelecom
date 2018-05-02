@@ -38,6 +38,10 @@ public class TileEntityModelBinder {
         renderers.put(BlockWirelessRx.TileEntityWirelessRx.class, new SignalBoxRenderer(true, "signal_box_wireless"));
         renderers.put(BlockWirelessTx.TileEntityWirelessTx.class, new SignalBoxRenderer(false, "signal_box_wireless"));
 
+        renderers.put(BlockRSLatch.TileEntityRSLatch.class, new AdvancedBoxRenderer(true, "rs_latch_base"));
+        renderers.put(BlockTimer.TileEntityTimer.class, new AdvancedBoxRenderer(true, "timer_base"));
+        renderers.put(BlockDelayer.TileEntityDelayer.class, new SignalBoxRenderer(false, "delayer_base"));
+
         for (Class<? extends TileEntity> tile : renderers.keySet()) {
             bind(renderers.get(tile), tile);
         }

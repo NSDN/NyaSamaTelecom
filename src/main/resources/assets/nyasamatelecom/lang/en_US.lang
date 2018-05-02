@@ -36,6 +36,10 @@ tile.BlockSignalBoxSender.name=Signal Box Sender
 tile.BlockSignalBoxGetter.name=Signal Box Getter
 tile.BlockTriStateSignalBox.name=Tri State Signal Box
 
+tile.BlockRSLatch.name=RS-Latch
+tile.BlockTimer.name=Timing Counter
+tile.BlockDelayer.name=Delayed Signal Box
+
 tile.BlockRedInput.name=RS Input Box
 tile.BlockRedOutput.name=RS Output Box
 

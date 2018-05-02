@@ -47,6 +47,10 @@ public class BlockLoader {
         blocks.put("signal_box_rx", new BlockWirelessRx());
         blocks.put("signal_box_tx", new BlockWirelessTx());
 
+        blocks.put("rs_latch_box", new BlockRSLatch());
+        blocks.put("timer_box", new BlockTimer());
+        blocks.put("delayer_box", new BlockDelayer());
+
         for (String name : blocks.keySet()) {
             register(blocks.get(name), name);
         }

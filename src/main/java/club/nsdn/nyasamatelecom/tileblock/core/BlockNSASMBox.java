@@ -339,26 +339,27 @@ public class BlockNSASMBox extends SignalBox {
         if (world.getTileEntity(x, y, z) == null) return false;
         if (world.getTileEntity(x, y, z) instanceof TileEntityNSASMBox) {
             TileEntityNSASMBox box = (TileEntityNSASMBox) world.getTileEntity(x, y, z);
-            if (!world.isRemote) {
-                ItemStack stack;
 
-                if (player.isSneaking()) {
-                    for (int i = 0; i < 9; i++) {
-                        stack = player.inventory.mainInventory[i];
-                        if (stack == null) continue;
-                        if (stack.getItem() == null) continue;
-                        if (stack.getItem() instanceof NGTablet) {
-                            box.nsasmState = TileEntityNSASMBox.NSASM_NULL;
-                            player.addChatComponentMessage(new ChatComponentTranslation("info.nsasm.reset"));
-                            return true;
-                        }
+            ItemStack stack;
+            if (!world.isRemote && player.isSneaking()) {
+                for (int i = 0; i < 9; i++) {
+                    stack = player.inventory.mainInventory[i];
+                    if (stack == null) continue;
+                    if (stack.getItem() == null) continue;
+                    if (stack.getItem() instanceof NGTablet) {
+                        box.nsasmState = TileEntityNSASMBox.NSASM_NULL;
+                        player.addChatComponentMessage(new ChatComponentTranslation("info.nsasm.reset"));
+                        return true;
                     }
                 }
+            }
 
-                stack = player.getCurrentEquippedItem();
-                if (stack != null) {
-                    NBTTagList list = Util.getTagListFromNGT(stack);
-                    if (list == null) return true;
+            stack = player.getCurrentEquippedItem();
+            if (stack != null) {
+                NBTTagList list = Util.getTagListFromNGT(stack);
+                if (list == null) return false;
+
+                if (!world.isRemote) {
                     String code = NSASM.getCodeString(list);
 
                     box.nsasmState = TileEntityNSASMBox.NSASM_NULL;
@@ -366,8 +367,9 @@ public class BlockNSASMBox extends SignalBox {
 
                     player.addChatComponentMessage(new ChatComponentTranslation("info.nsasm.set"));
                 }
+
+                return true;
             }
-            return true;
         }
 
         return false;

@@ -390,33 +390,33 @@ public class BlockNSPGA extends SignalBox {
         if (world.getTileEntity(x, y, z) == null) return false;
         if (world.getTileEntity(x, y, z) instanceof TileEntityNSPGA) {
             TileEntityNSPGA dev = (TileEntityNSPGA) world.getTileEntity(x, y, z);
-            if (!world.isRemote) {
-                ItemStack stack;
 
-                if (player.isSneaking()) {
-                    for (int i = 0; i < 9; i++) {
-                        stack = player.inventory.mainInventory[i];
-                        if (stack == null) continue;
-                        if (stack.getItem() == null) continue;
-                        if (stack.getItem() instanceof NGTablet) {
+            ItemStack stack;
+            if (!world.isRemote && player.isSneaking()) {
+                for (int i = 0; i < 9; i++) {
+                    stack = player.inventory.mainInventory[i];
+                    if (stack == null) continue;
+                    if (stack.getItem() == null) continue;
+                    if (stack.getItem() instanceof NGTablet) {
 
-                            dev.inputsLen = 0; dev.inputs = new String[0];
-                            dev.outputsLen = 0; dev.outputs = new String[0];
-                            dev.flashLen = 0; dev.flash = new int[0];
-                            dev.device = null; dev.configured = false;
+                        dev.inputsLen = 0; dev.inputs = new String[0];
+                        dev.outputsLen = 0; dev.outputs = new String[0];
+                        dev.flashLen = 0; dev.flash = new int[0];
+                        dev.device = null; dev.configured = false;
 
-                            player.addChatComponentMessage(new ChatComponentTranslation("info.nspga.reset"));
-                            return true;
-                        }
+                        player.addChatComponentMessage(new ChatComponentTranslation("info.nspga.reset"));
+                        return true;
                     }
                 }
+            }
 
-                stack = player.getCurrentEquippedItem();
-                if (stack != null) {
-                    NBTTagList list = Util.getTagListFromNGT(stack);
-                    if (list == null) return true;
+            stack = player.getCurrentEquippedItem();
+            if (stack != null) {
+                NBTTagList list = Util.getTagListFromNGT(stack);
+                if (list == null) return false;
+
+                if (!world.isRemote) {
                     String[][] code = NSASM.getCode(list);
-
                     new NSPGALoader(code) {
                         @Override
                         public World getWorld() { return world; }
@@ -434,8 +434,9 @@ public class BlockNSPGA extends SignalBox {
 
                     player.addChatComponentMessage(new ChatComponentTranslation("info.nspga.set"));
                 }
+
+                return true;
             }
-            return true;
         }
 
         return false;

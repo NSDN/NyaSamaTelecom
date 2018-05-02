@@ -39,13 +39,15 @@ public class BlockTriStateSignalBox extends TriStateSignalBox {
         if (world.getTileEntity(x, y, z) == null) return false;
         if (world.getTileEntity(x, y, z) instanceof TileEntityTriStateSignalBox) {
             TileEntityTriStateSignalBox box = (TileEntityTriStateSignalBox) world.getTileEntity(x, y, z);
-            if (!world.isRemote) {
-                ItemStack stack = player.getCurrentEquippedItem();
-                if (stack != null) {
 
-                    NBTTagList list = Util.getTagListFromNGT(stack);
-                    if (list == null) return true;
+            ItemStack stack = player.getCurrentEquippedItem();
+            if (stack != null) {
+                NBTTagList list = Util.getTagListFromNGT(stack);
+                if (list == null) return false;
+
+                if (!world.isRemote) {
                     String[][] code = NSASM.getCode(list);
+
                     new NSASM(code) {
                         @Override
                         public World getWorld() {
@@ -106,10 +108,10 @@ public class BlockTriStateSignalBox extends TriStateSignalBox {
                             });
                         }
                     }.run();
-
                 }
+
+                return true;
             }
-            return true;
         }
 
         return false;

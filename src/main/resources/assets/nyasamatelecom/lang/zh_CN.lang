@@ -36,6 +36,10 @@ tile.BlockSignalBoxSender.name=中继发射器
 tile.BlockSignalBoxGetter.name=接收指示器
 tile.BlockTriStateSignalBox.name=三态执行器
 
+tile.BlockRSLatch.name=RS触发器
+tile.BlockTimer.name=定时计数器
+tile.BlockDelayer.name=延时执行器
+
 tile.BlockRedInput.name=红石输入器
 tile.BlockRedOutput.name=红石输出器
 

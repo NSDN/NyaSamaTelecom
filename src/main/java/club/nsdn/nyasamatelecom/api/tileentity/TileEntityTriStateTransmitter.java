@@ -27,8 +27,8 @@ public class TileEntityTriStateTransmitter extends TileEntityActuator {
     }
 
     public boolean setSwitch(boolean state) {
-        if (getTarget() instanceof TileEntityTriStateReceiver) {
-            TileEntityTriStateReceiver target = (TileEntityTriStateReceiver) getTarget();
+        if (getTarget() instanceof ITriStateReceiver) {
+            ITriStateReceiver target = (ITriStateReceiver) getTarget();
 
             if (triStateIsNeg) {
                 if (state) target.setStateNeg();

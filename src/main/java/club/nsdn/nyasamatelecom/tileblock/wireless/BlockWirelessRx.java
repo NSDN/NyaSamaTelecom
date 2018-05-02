@@ -108,13 +108,15 @@ public class BlockWirelessRx extends SignalBoxSender {
         if (world.getTileEntity(x, y, z) == null) return false;
         if (world.getTileEntity(x, y, z) instanceof TileEntityWirelessRx) {
             TileEntityWirelessRx box = (TileEntityWirelessRx) world.getTileEntity(x, y, z);
-            if (!world.isRemote) {
-                ItemStack stack = player.getCurrentEquippedItem();
-                if (stack != null) {
 
-                    NBTTagList list = Util.getTagListFromNGT(stack);
-                    if (list == null) return true;
+            ItemStack stack = player.getCurrentEquippedItem();
+            if (stack != null) {
+                NBTTagList list = Util.getTagListFromNGT(stack);
+                if (list == null) return false;
+
+                if (!world.isRemote) {
                     String[][] code = NSASM.getCode(list);
+
                     new NSASM(code) {
                         @Override
                         public World getWorld() {
@@ -180,8 +182,9 @@ public class BlockWirelessRx extends SignalBoxSender {
 
                     TelecomProcessor.instance().register(box);
                 }
+
+                return true;
             }
-            return true;
         }
 
         return false;
