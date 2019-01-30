@@ -65,7 +65,7 @@ public class DeviceBase extends BlockContainer {
     }
 
     @Override
-    public boolean isFullCube(IBlockState p_isFullCube_1_) {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 

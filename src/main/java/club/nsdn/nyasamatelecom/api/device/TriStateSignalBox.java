@@ -27,12 +27,6 @@ public class TriStateSignalBox extends DeviceBase {
         }
 
         @Override
-        public void update() {
-            super.update();
-            if (!getWorld().isRemote)
-                updateSignal(world, getPos());
-        }
-
         public void updateSignal(World world, BlockPos pos) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity == null) return;

@@ -100,6 +100,12 @@ public class TileEntityBase extends TileEntity implements ITickable {
 
     @Override
     public void update() {
+        if (!getWorld().isRemote)
+            updateSignal(world, getPos());
+    }
+
+    public void updateSignal(World world, BlockPos pos) {
+
     }
 
     public void fromNBT(NBTTagCompound tagCompound) {

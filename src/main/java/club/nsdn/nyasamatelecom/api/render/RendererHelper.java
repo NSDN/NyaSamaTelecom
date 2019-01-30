@@ -36,4 +36,10 @@ public class RendererHelper {
         model.renderPart(part);
         GL11.glPopMatrix();
     }
+
+    public static void renderWithResource4(WavefrontObject model, ResourceLocation texture) {
+        for (int i = 0; i < 4; i++)
+            renderWithResourceAndRotation(model, 90.0F * i, texture);
+    }
+
 }
