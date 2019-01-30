@@ -1,5 +1,7 @@
 package club.nsdn.nyasamatelecom.renderer;
 
+import club.nsdn.nyasamatelecom.api.render.AbsTileEntitySpecialRenderer;
+import club.nsdn.nyasamatelecom.api.render.RendererHelper;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityBase;
 import club.nsdn.nyasamatelecom.tileblock.core.BlockRSLatch;
 import club.nsdn.nyasamatelecom.tileblock.core.BlockTimer;

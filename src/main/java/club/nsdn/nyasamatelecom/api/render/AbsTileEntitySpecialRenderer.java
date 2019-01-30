@@ -1,4 +1,4 @@
-package club.nsdn.nyasamatelecom.renderer;
+package club.nsdn.nyasamatelecom.api.render;
 
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityBase;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

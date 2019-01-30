@@ -1,6 +1,8 @@
 package club.nsdn.nyasamatelecom.renderer;
 
 import club.nsdn.nyasamatelecom.api.device.TriStateSignalBox;
+import club.nsdn.nyasamatelecom.api.render.AbsTileEntitySpecialRenderer;
+import club.nsdn.nyasamatelecom.api.render.RendererHelper;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;

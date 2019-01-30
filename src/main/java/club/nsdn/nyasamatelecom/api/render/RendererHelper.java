@@ -1,4 +1,4 @@
-package club.nsdn.nyasamatelecom.renderer;
+package club.nsdn.nyasamatelecom.api.render;
 
 import cn.ac.nya.forgeobj.WavefrontObject;
 import net.minecraft.client.Minecraft;

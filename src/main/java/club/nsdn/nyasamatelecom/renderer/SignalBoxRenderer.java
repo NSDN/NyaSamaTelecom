@@ -3,6 +3,8 @@ package club.nsdn.nyasamatelecom.renderer;
 import club.nsdn.nyasamatelecom.api.device.SignalBox;
 import club.nsdn.nyasamatelecom.api.device.SignalBoxGetter;
 import club.nsdn.nyasamatelecom.api.device.SignalBoxSender;
+import club.nsdn.nyasamatelecom.api.render.AbsTileEntitySpecialRenderer;
+import club.nsdn.nyasamatelecom.api.render.RendererHelper;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityActuator;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityBase;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityMultiSender;
