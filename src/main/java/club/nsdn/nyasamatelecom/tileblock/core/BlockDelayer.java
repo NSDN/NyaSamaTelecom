@@ -7,6 +7,7 @@ import club.nsdn.nyasamatelecom.api.util.NSASM;
 import club.nsdn.nyasamatelecom.api.util.Util;
 import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
 import club.nsdn.nyasamatelecom.network.NetworkWrapper;
+import club.nsdn.nyasamatelecom.util.Utility;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -75,6 +76,18 @@ public class BlockDelayer extends SignalBox {
 
         @Override
         public void loadFunc(LinkedHashMap<String, Operator> funcList) {
+            funcList.put("inv", (dst, src) -> {
+                if (dst != null) return Result.ERR;
+                if (src != null) return Result.ERR;
+
+                getDelayer().inverterEnabled = !getDelayer().inverterEnabled;
+                if (getDelayer().inverterEnabled)
+                    Utility.say(getPlayer(), "info.signal.box.inverter.on");
+                else
+                    Utility.say(getPlayer(), "info.signal.box.inverter.off");
+
+                return Result.OK;
+            });
             funcList.put("set", (dst, src) -> {
                 if (src != null) return Result.ERR;
                 if (dst == null) {
@@ -112,6 +125,27 @@ public class BlockDelayer extends SignalBox {
         return 20;
     }
 
+    public void doControl(TileEntityDelayer delayer, boolean isEnabled) {
+        if (!delayer.tryControlFirst(isEnabled)) {
+            if (!delayer.tryControlSecond(isEnabled)) {
+                if (!delayer.setTargetSender(isEnabled)) {
+                    if (!delayer.setTargetGetter(isEnabled)) {
+                        if (delayer.getTarget() != null) {
+                            TileEntity tileEntity = delayer.getTarget();
+                            if (tileEntity instanceof TileEntityReceiver) {
+                                if (tileEntity instanceof IPassive) {
+                                    delayer.controlTarget(isEnabled);
+                                }
+                            } else {
+                                delayer.controlTarget(isEnabled);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void updateSignal(World world, int x , int y, int z) {
         if (world.getTileEntity(x, y, z) == null) return;
@@ -134,31 +168,15 @@ public class BlockDelayer extends SignalBox {
 
             delayer.isEnabled = isEnabled;
 
-            if (!isEnabled) delayer.tmpTime = 0;
+            if (!isEnabled) {
+                delayer.tmpTime = 0;
+                doControl(delayer, delayer.inverterEnabled);
+            }
             else {
                 delayer.tmpTime += 1;
                 if (delayer.tmpTime >= delayer.setTime) {
                     delayer.tmpTime = 0;
-
-                    isEnabled = !delayer.inverterEnabled;
-                    if (!delayer.tryControlFirst(isEnabled)) {
-                        if (!delayer.tryControlSecond(isEnabled)) {
-                            if (!delayer.setTargetSender(isEnabled)) {
-                                if (!delayer.setTargetGetter(isEnabled)) {
-                                    if (delayer.getTarget() != null) {
-                                        TileEntity tileEntity = delayer.getTarget();
-                                        if (tileEntity instanceof TileEntityReceiver) {
-                                            if (tileEntity instanceof IPassive) {
-                                                delayer.controlTarget(isEnabled);
-                                            }
-                                        } else {
-                                            delayer.controlTarget(isEnabled);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    doControl(delayer, !delayer.inverterEnabled);
                 }
             }
 
