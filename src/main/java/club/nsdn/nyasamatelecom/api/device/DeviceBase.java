@@ -44,6 +44,10 @@ public class DeviceBase extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(@Nullable World world, int meta) {
+        return createNewTileEntity();
+    }
+
+    public TileEntity createNewTileEntity() {
         return new TileEntityBase();
     }
 

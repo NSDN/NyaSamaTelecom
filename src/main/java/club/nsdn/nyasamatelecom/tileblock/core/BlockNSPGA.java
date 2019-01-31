@@ -337,7 +337,7 @@ public class BlockNSPGA extends SignalBox {
     public final String name;
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta) {
+    public TileEntity createNewTileEntity() {
         return new TileEntityNSPGA();
     }
 

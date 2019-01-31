@@ -39,7 +39,7 @@ public class BlockSignalBox extends SignalBox {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta) {
+    public TileEntity createNewTileEntity() {
         return new TileEntitySignalBox();
     }
 

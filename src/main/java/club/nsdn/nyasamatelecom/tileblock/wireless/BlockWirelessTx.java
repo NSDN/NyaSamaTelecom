@@ -84,7 +84,7 @@ public class BlockWirelessTx extends SignalBoxGetter {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta) {
+    public TileEntity createNewTileEntity() {
         return new TileEntityWirelessTx();
     }
 

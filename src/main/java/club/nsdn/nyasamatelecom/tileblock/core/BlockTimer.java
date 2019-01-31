@@ -196,7 +196,7 @@ public class BlockTimer extends SignalBoxSender {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta) {
+    public TileEntity createNewTileEntity() {
         return new TileEntityTimer();
     }
 

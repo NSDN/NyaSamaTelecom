@@ -98,12 +98,9 @@ public class ToolBase extends Item {
 
     public void updateTileEntity(TileEntity tileEntity) {
         if (tileEntity == null) return;
-        tileEntity.getWorld().notifyBlockUpdate(
-            tileEntity.getPos(),
-            tileEntity.getBlockType().getDefaultState(),
-            tileEntity.getBlockType().getDefaultState(),
-            2
-        );
+        IBlockState state = tileEntity.getBlockType().getDefaultState();
+        tileEntity.getWorld().notifyBlockUpdate(tileEntity.getPos(), state, state, 2);
+        tileEntity.getWorld().markBlockRangeForRenderUpdate(tileEntity.getPos(), tileEntity.getPos());
     }
 
 }

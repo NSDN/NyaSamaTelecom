@@ -16,7 +16,7 @@ public class ToolHandler {
     }
 
     @SubscribeEvent
-    public void onEntityInteract(PlayerInteractEvent event) {
+    public void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
 
     }
 

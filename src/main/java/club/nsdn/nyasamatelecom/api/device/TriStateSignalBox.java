@@ -73,7 +73,7 @@ public class TriStateSignalBox extends DeviceBase {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta) {
+    public TileEntity createNewTileEntity() {
         return new TileEntityTriStateSignalBox();
     }
 
