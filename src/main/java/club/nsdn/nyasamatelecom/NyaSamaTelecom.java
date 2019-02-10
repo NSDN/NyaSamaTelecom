@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(modid = NyaSamaTelecom.MODID, name = NyaSamaTelecom.NAME, version = NyaSamaTelecom.VERSION)
 public class NyaSamaTelecom {
 
-    @Mod.Instance("NyaSamaTelecom")
+    @Mod.Instance
     public static NyaSamaTelecom instance;
     public static final String MODID = "nyasamatelecom";
     public static final String NAME = "NyaSama Telecom";
@@ -28,7 +28,6 @@ public class NyaSamaTelecom {
     public static CommonProxy proxy;
 
     public static NyaSamaTelecom getInstance() {
-        if (instance == null) instance = new NyaSamaTelecom();
         return instance;
     }
 

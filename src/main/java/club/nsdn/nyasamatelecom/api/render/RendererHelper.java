@@ -2,6 +2,8 @@ package club.nsdn.nyasamatelecom.api.render;
 
 import cn.ac.nya.forgeobj.WavefrontObject;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -9,6 +11,45 @@ import org.lwjgl.opengl.GL11;
  * Created by drzzm32 on 2018.12.14.
  */
 public class RendererHelper {
+
+    public static void beginSpecialLightingNoDepth() {
+        RenderHelper.disableStandardItemLighting();
+
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+
+        if (Minecraft.isAmbientOcclusionEnabled()) {
+            GL11.glShadeModel(GL11.GL_SMOOTH);
+        } else {
+            GL11.glShadeModel(GL11.GL_FLAT);
+        }
+
+        GL11.glDepthMask(false);
+    }
+
+    public static void endSpecialLightingNoDepth() {
+        GL11.glDepthMask(true);
+        RenderHelper.enableStandardItemLighting();
+    }
+
+    public static void beginSpecialLighting() {
+        RenderHelper.disableStandardItemLighting();
+
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+
+        if (Minecraft.isAmbientOcclusionEnabled()) {
+            GL11.glShadeModel(GL11.GL_SMOOTH);
+        } else {
+            GL11.glShadeModel(GL11.GL_FLAT);
+        }
+    }
+
+    public static void endSpecialLighting() {
+        RenderHelper.enableStandardItemLighting();
+    }
 
     public static void renderWithResourceAndRotation(WavefrontObject model, float angle, ResourceLocation texture) {
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -34,6 +75,28 @@ public class RendererHelper {
         GL11.glPushMatrix();
         GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
         model.renderPart(part);
+        GL11.glPopMatrix();
+    }
+
+    public static void renderPartWithResourceAndRotation(WavefrontObject model, String part, float angle, ResourceLocation texture) {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+        GL11.glPushMatrix();
+        GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
+        GL11.glPushMatrix();
+        GL11.glRotatef(angle, 0.0F, -1.0F, 0.0F);
+        model.renderPart(part);
+        GL11.glPopMatrix();
+        GL11.glPopMatrix();
+    }
+
+    public static void renderOtherPartWithResourceAndRotation(WavefrontObject model, String part, float angle, ResourceLocation texture) {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+        GL11.glPushMatrix();
+        GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
+        GL11.glPushMatrix();
+        GL11.glRotatef(angle, 0.0F, -1.0F, 0.0F);
+        model.renderAllExcept(part);
+        GL11.glPopMatrix();
         GL11.glPopMatrix();
     }
 

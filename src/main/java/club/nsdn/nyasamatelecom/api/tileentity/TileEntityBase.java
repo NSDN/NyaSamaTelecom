@@ -85,6 +85,11 @@ public class TileEntityBase extends TileEntity implements ITickable {
         getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
     }
 
+    @Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+        return oldState.getBlock() != newState.getBlock();
+    }
+
     public TileEntityBase() {  }
 
     protected void setInfo(int metaMax, double x, double y, double z) {

@@ -16,6 +16,7 @@ import org.thewdj.telecom.IPassive;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -24,6 +25,13 @@ import java.util.Random;
 public class SignalBox extends DeviceBase {
 
     public static class TileEntitySignalBox extends TileEntityActuator {
+
+        @FunctionalInterface
+        public interface IControlFunc {
+            void control(TileEntity tileEntity, boolean state);
+        }
+
+        public static LinkedList<IControlFunc> CONTROL_FUNCS = new LinkedList<>();
 
         public boolean isEnabled;
         public boolean inverterEnabled;
@@ -64,6 +72,10 @@ public class SignalBox extends DeviceBase {
                             if (!signalBox.setTargetGetter(isEnabled)) {
                                 if (signalBox.getTarget() != null) {
                                     tileEntity = signalBox.getTarget();
+
+                                    for (IControlFunc func : CONTROL_FUNCS)
+                                        func.control(tileEntity, isEnabled);
+
                                     if (tileEntity instanceof TileEntityReceiver) {
                                         if (tileEntity instanceof IPassive) {
                                             signalBox.controlTarget(isEnabled);
