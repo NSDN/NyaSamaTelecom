@@ -1,6 +1,6 @@
 package cn.ac.nya.forgeobj;
 
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -13,13 +13,13 @@ public class Face
     public TextureCoordinate[] textureCoordinates;
 
     @SideOnly(Side.CLIENT)
-    public void addFaceForRender(Tessellator tessellator)
+    public void addFaceForRender(BufferBuilder bufferBuilder)
     {
-        addFaceForRender(tessellator, 0.0005F);
+        addFaceForRender(bufferBuilder, 0.0005F);
     }
 
     @SideOnly(Side.CLIENT)
-    public void addFaceForRender(Tessellator tessellator, float textureOffset)
+    public void addFaceForRender(BufferBuilder bufferBuilder, float textureOffset)
     {
         if (faceNormal == null)
         {
@@ -60,10 +60,10 @@ public class Face
                     offsetV = -offsetV;
                 }
 
-                tessellator.getBuffer().pos(vertices[i].x, vertices[i].y, vertices[i].z);
-                tessellator.getBuffer().tex(textureCoordinates[i].u + offsetU, textureCoordinates[i].v + offsetV);
-                tessellator.getBuffer().normal(faceNormal.x, faceNormal.y, faceNormal.z);
-                tessellator.getBuffer().endVertex();
+                bufferBuilder.pos(vertices[i].x, vertices[i].y, vertices[i].z);
+                bufferBuilder.tex(textureCoordinates[i].u + offsetU, textureCoordinates[i].v + offsetV);
+                bufferBuilder.normal(faceNormal.x, faceNormal.y, faceNormal.z);
+                bufferBuilder.endVertex();
             }
         }
     }

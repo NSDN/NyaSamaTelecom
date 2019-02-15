@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResource;
@@ -172,27 +173,27 @@ public class WavefrontObject
     @SideOnly(Side.CLIENT)
     public void renderAll()
     {
-        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
 
         if (currentGroupObject != null)
         {
-            tessellator.getBuffer().begin(currentGroupObject.glDrawingMode, DefaultVertexFormats.POSITION_TEX_NORMAL);
+            bufferBuilder.begin(currentGroupObject.glDrawingMode, DefaultVertexFormats.POSITION_TEX_NORMAL);
         }
         else
         {
-            tessellator.getBuffer().begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX_NORMAL);
+            bufferBuilder.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX_NORMAL);
         }
-        tessellateAll(tessellator);
+        tessellateAll(bufferBuilder);
 
-        tessellator.draw();
+        Tessellator.getInstance().draw();
     }
 
     @SideOnly(Side.CLIENT)
-    public void tessellateAll(Tessellator tessellator)
+    public void tessellateAll(BufferBuilder bufferBuilder)
     {
         for (GroupObject groupObject : groupObjects)
         {
-            groupObject.render(tessellator);
+            groupObject.render(bufferBuilder);
         }
     }
 
@@ -212,14 +213,14 @@ public class WavefrontObject
     }
 
     @SideOnly(Side.CLIENT)
-    public void tessellateOnly(Tessellator tessellator, String... groupNames) {
+    public void tessellateOnly(BufferBuilder bufferBuilder, String... groupNames) {
         for (GroupObject groupObject : groupObjects)
         {
             for (String groupName : groupNames)
             {
                 if (groupName.equalsIgnoreCase(groupObject.name))
                 {
-                    groupObject.render(tessellator);
+                    groupObject.render(bufferBuilder);
                 }
             }
         }
@@ -238,12 +239,12 @@ public class WavefrontObject
     }
 
     @SideOnly(Side.CLIENT)
-    public void tessellatePart(Tessellator tessellator, String partName) {
+    public void tessellatePart(BufferBuilder bufferBuilder, String partName) {
         for (GroupObject groupObject : groupObjects)
         {
             if (partName.equalsIgnoreCase(groupObject.name))
             {
-                groupObject.render(tessellator);
+                groupObject.render(bufferBuilder);
             }
         }
     }
@@ -269,7 +270,7 @@ public class WavefrontObject
     }
 
     @SideOnly(Side.CLIENT)
-    public void tessellateAllExcept(Tessellator tessellator, String... excludedGroupNames)
+    public void tessellateAllExcept(BufferBuilder bufferBuilder, String... excludedGroupNames)
     {
         boolean exclude;
         for (GroupObject groupObject : groupObjects)
@@ -284,7 +285,7 @@ public class WavefrontObject
             }
             if(!exclude)
             {
-                groupObject.render(tessellator);
+                groupObject.render(bufferBuilder);
             }
         }
     }

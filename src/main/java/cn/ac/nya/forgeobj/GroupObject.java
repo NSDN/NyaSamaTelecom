@@ -2,6 +2,7 @@ package cn.ac.nya.forgeobj;
 
 import java.util.ArrayList;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,21 +35,21 @@ public class GroupObject
     {
         if (faces.size() > 0)
         {
-            Tessellator tessellator = Tessellator.getInstance();
-            tessellator.getBuffer().begin(glDrawingMode, DefaultVertexFormats.POSITION_TEX_NORMAL);
-            render(tessellator);
-            tessellator.draw();
+            BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+            bufferBuilder.begin(glDrawingMode, DefaultVertexFormats.POSITION_TEX_NORMAL);
+            render(bufferBuilder);
+            Tessellator.getInstance().draw();
         }
     }
 
     @SideOnly(Side.CLIENT)
-    public void render(Tessellator tessellator)
+    public void render(BufferBuilder bufferBuilder)
     {
         if (faces.size() > 0)
         {
             for (Face face : faces)
             {
-                face.addFaceForRender(tessellator);
+                face.addFaceForRender(bufferBuilder);
             }
         }
     }
