@@ -10,17 +10,17 @@ import org.thewdj.telecom.IReceiver;
  */
 public class TileEntityReceiver extends TileEntityBase implements IReceiver<TileEntityTransceiver> {
 
-    public String receiverX, receiverY, receiverZ;
+    public String senderX, senderY, senderZ;
 
     @Override
     public TileEntityTransceiver getSender() {
-        if (receiverX.equals("null") || receiverY.equals("null") || receiverZ.equals("null")) return null;
+        if (senderX.equals("null") || senderY.equals("null") || senderZ.equals("null")) return null;
 
         TileEntity tileEntity; int x, y, z;
         try {
-            x = Integer.parseInt(receiverX);
-            y = Integer.parseInt(receiverY);
-            z = Integer.parseInt(receiverZ);
+            x = Integer.parseInt(senderX);
+            y = Integer.parseInt(senderY);
+            z = Integer.parseInt(senderZ);
         } catch (Exception e) {
             return null;
         }
@@ -35,13 +35,13 @@ public class TileEntityReceiver extends TileEntityBase implements IReceiver<Tile
     @Override
     public void setSender(TileEntityTransceiver sender) {
         if (sender == null) {
-            receiverX = "null";
-            receiverY = "null";
-            receiverZ = "null";
+            senderX = "null";
+            senderY = "null";
+            senderZ = "null";
         } else {
-            receiverX = String.valueOf(sender.getPos().getX());
-            receiverY = String.valueOf(sender.getPos().getY());
-            receiverZ = String.valueOf(sender.getPos().getZ());
+            senderX = String.valueOf(sender.getPos().getX());
+            senderY = String.valueOf(sender.getPos().getY());
+            senderZ = String.valueOf(sender.getPos().getZ());
         }
     }
 
@@ -53,29 +53,29 @@ public class TileEntityReceiver extends TileEntityBase implements IReceiver<Tile
     }
 
     public TileEntityReceiver() {
-        receiverX = "null";
-        receiverY = "null";
-        receiverZ = "null";
+        senderX = "null";
+        senderY = "null";
+        senderZ = "null";
     }
 
     @Override
     public void fromNBT(NBTTagCompound tagCompound) {
         super.fromNBT(tagCompound);
-        receiverX = tagCompound.getString("receiverX");
-        receiverY = tagCompound.getString("receiverY");
-        receiverZ = tagCompound.getString("receiverZ");
+        senderX = tagCompound.getString("senderX");
+        senderY = tagCompound.getString("senderY");
+        senderZ = tagCompound.getString("senderZ");
     }
 
     @Override
     public NBTTagCompound toNBT(NBTTagCompound tagCompound) {
         if (getSender() == null) {
-            tagCompound.setString("receiverX", "null");
-            tagCompound.setString("receiverY", "null");
-            tagCompound.setString("receiverZ", "null");
+            tagCompound.setString("senderX", "null");
+            tagCompound.setString("senderY", "null");
+            tagCompound.setString("senderZ", "null");
         } else {
-            tagCompound.setString("receiverX", receiverX);
-            tagCompound.setString("receiverY", receiverY);
-            tagCompound.setString("receiverZ", receiverZ);
+            tagCompound.setString("senderX", senderX);
+            tagCompound.setString("senderY", senderY);
+            tagCompound.setString("senderZ", senderZ);
         }
         return super.toNBT(tagCompound);
     }
