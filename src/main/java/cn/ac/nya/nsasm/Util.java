@@ -1,5 +1,6 @@
 package cn.ac.nya.nsasm;
 
+import club.nsdn.nyasamatelecom.NyaSamaTelecom;
 import cn.ac.nya.nsasm.NSASM.*;
 
 import java.io.*;
@@ -10,12 +11,17 @@ import java.util.*;
  */
 public class Util {
 
+    public static StringBuilder BUFFER = new StringBuilder();
+
     public static void print(Object value) {
-        System.out.print(value);
+        if (BUFFER.length() > 128)
+            BUFFER = new StringBuilder();
+        BUFFER.append(value);
+        NyaSamaTelecom.logger.debug(value);
     }
 
     public static String scan() {
-        return new Scanner(System.in).nextLine();
+        return "null";
     }
 
     private static String cleanSymbol(String var, String symbol, String trash) {

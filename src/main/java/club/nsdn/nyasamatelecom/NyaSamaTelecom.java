@@ -1,12 +1,14 @@
 package club.nsdn.nyasamatelecom;
 
 import club.nsdn.nyasamatelecom.proxy.CommonProxy;
+import club.nsdn.nyasamatelecom.util.NSASMCommand;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -45,6 +47,11 @@ public class NyaSamaTelecom {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
+    }
+
+    @EventHandler
+    public void serverLoad(FMLServerStartingEvent event) {
+        event.registerServerCommand(new NSASMCommand());
     }
 
 }

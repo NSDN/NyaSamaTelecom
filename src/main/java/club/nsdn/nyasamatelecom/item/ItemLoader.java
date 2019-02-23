@@ -51,5 +51,6 @@ public class ItemLoader {
         items.add(new ItemConnector());
         items.add(new ItemDevEditor());
         items.add(new ItemNGTablet());
+        items.add(new NyaGameMR());
     }
 }

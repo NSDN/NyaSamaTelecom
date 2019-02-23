@@ -1,10 +1,11 @@
 package club.nsdn.nyasamatelecom.api.render;
 
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityBase;
-import club.nsdn.nyasamatelecom.api.tool.ToolBase;
+import club.nsdn.nyasamatelecom.item.NyaGameMR;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -20,7 +21,8 @@ public abstract class AbsTileEntitySpecialRenderer extends TileEntitySpecialRend
     public void render(@Nonnull TileEntity te, double x, double y, double z, float partialTicks, int destroyStage, float partial) {
         if (te instanceof TileEntityBase) {
             render((TileEntityBase) te, x, y, z, partialTicks, destroyStage, partial);
-            if (Minecraft.getMinecraft().player.getHeldItemMainhand().getItem() instanceof ToolBase) {
+
+            if (Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() instanceof NyaGameMR) {
                 BlockPos pos = te.getPos();
                 BlockPos playerPos = Minecraft.getMinecraft().player.getPosition();
                 Vec3d vec = new Vec3d(pos.subtract(playerPos));
