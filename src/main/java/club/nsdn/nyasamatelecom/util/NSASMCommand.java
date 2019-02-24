@@ -55,7 +55,8 @@ public class NSASMCommand extends CommandBase {
 
             String code = "";
             for (String str : args)
-                code = code.concat(str + "\n");
+                code = code.concat(str + " ");
+            code = code.replace(";;", "\n");
 
             Util.BUFFER = new StringBuilder();
             new NSASM(32, 32, 16, Util.getSegments(code)).run();

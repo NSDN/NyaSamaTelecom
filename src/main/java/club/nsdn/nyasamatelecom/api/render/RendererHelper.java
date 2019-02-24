@@ -142,10 +142,11 @@ public class RendererHelper {
         Util.Color3 color = Util.hsv2RGB((float) h, 1.0F, 1.0F);
 
         Vec3d v = srcPos;
-        GL11.glBegin(GL11.GL_LINE_STRIP);
-        GL11.glColor3f(color.r, color.g, color.b);
 
-        GL11.glVertex3d(v.x, v.y, v.z);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+        buffer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
+        buffer.pos(v.x, v.y, v.z).color(color.r, color.g, color.b, 1.0F).endVertex();
         for (Tuple<String, Double> t : list) {
             String dir = t.getFirst();
             switch (dir) {
@@ -160,10 +161,9 @@ public class RendererHelper {
                     v = v.addVector(0, 0, vec.z);
                     break;
             }
-            GL11.glVertex3d(v.x, v.y, v.z);
+            buffer.pos(v.x, v.y, v.z).color(color.r, color.g, color.b, 1.0F).endVertex();
         }
-        GL11.glColor3f(1.0F, 1.0F, 1.0F);
-        GL11.glEnd();
+        tessellator.draw();
 
         GlStateManager.popAttrib();
         endSpecialLighting();

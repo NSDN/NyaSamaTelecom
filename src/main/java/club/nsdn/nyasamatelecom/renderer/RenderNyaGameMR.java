@@ -1,19 +1,107 @@
 package club.nsdn.nyasamatelecom.renderer;
 
+import club.nsdn.nyasamatelecom.NyaSamaTelecom;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
  * Created by drzzm32 on 2019.2.23.
  */
-public class NyaGameMRModel extends ModelBiped {
+public class RenderNyaGameMR extends ModelBiped {
 
-    public static NyaGameMRModel INSTANCE = new NyaGameMRModel();
+    public static final RenderNyaGameMR MODEL = new RenderNyaGameMR();
+    public static final RenderNyaGameMR INSTANCE = MODEL;
+
+    public static void drawTexturedModalRect(int x, int y, int z, int w, int h) {
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+        buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        buffer.pos((double)(x + 0), (double)(y + h), (double)z).tex(0, 1).endVertex();
+        buffer.pos((double)(x + w), (double)(y + h), (double)z).tex(1, 1).endVertex();
+        buffer.pos((double)(x + w), (double)(y + 0), (double)z).tex(1, 0).endVertex();
+        buffer.pos((double)(x + 0), (double)(y + 0), (double)z).tex(0, 0).endVertex();
+        tessellator.draw();
+    }
+
+    public static void drawTexturedColoredModalRect(int x, int y, int z, int w, int h, int color) {
+        int r = (color >> 16) & 0xFF, g = (color >> 8) & 0xFF, b = color & 0xFF, a = 128;
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+        buffer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+        buffer.pos((double)(x + 0), (double)(y + h), (double)z).tex(0, 1).color(r, g, b, a).endVertex();
+        buffer.pos((double)(x + w), (double)(y + h), (double)z).tex(1, 1).color(r, g, b, a).endVertex();
+        buffer.pos((double)(x + w), (double)(y + 0), (double)z).tex(1, 0).color(r, g, b, a).endVertex();
+        buffer.pos((double)(x + 0), (double)(y + 0), (double)z).tex(0, 0).color(r, g, b, a).endVertex();
+        tessellator.draw();
+    }
+
+    ResourceLocation hudBack = new ResourceLocation(NyaSamaTelecom.MODID, "textures/item/nyagame_mr_hud.png");
+
+    public void drawHUDBack() {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(hudBack);
+        drawTexturedModalRect(0, 0, 0, 128, 64);
+    }
+
+    public int WIDTH = 29, HEIGH = 13, OFFSET = 6, SIZE = 4;
+
+    static ResourceLocation textureText[];
+
+    static {
+        textureText = new ResourceLocation[128];
+        for (int i = 0; i < 128; i++)
+            textureText[i] =  new ResourceLocation(
+                    NyaSamaTelecom.MODID, "textures/fonts/" + "font_" + i + ".png"
+            );
+    }
+
+    void renderChar(int x, int y, char c, int color) {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(textureText[c]);
+        drawTexturedColoredModalRect(x, y, 0, SIZE, SIZE, color);
+    }
+
+    void renderString(String str, int x, int y, int color) {
+        for (int i = 0; i < str.length(); i++)
+            renderChar(x + i * SIZE, y, str.charAt(i), color);
+    }
+
+    String[] buffer = new String[HEIGH];
+
+    public void drawHUDString() {
+        for (int i = 0; i < buffer.length; i++) {
+            if (buffer[i] == null) buffer[i] = "";
+            renderString(
+                    buffer[i].substring(0, buffer[i].length() > WIDTH ? WIDTH : buffer[i].length()),
+                    OFFSET, OFFSET + i * SIZE, 0x84FFFF
+            );
+        }
+    }
+
+    int ptr = 0;
+
+    public void clear() {
+        buffer = new String[HEIGH];
+        ptr = 0;
+    }
+
+    public void print(String format, Object... args) {
+        if (ptr >= HEIGH) {
+            ptr = HEIGH - 1;
+            buffer = Arrays.copyOfRange(buffer, 1, HEIGH + 1);
+        }
+        buffer[ptr] = String.format(format, args);
+        ptr += 1;
+    }
 
     LinkedList<ModelRenderer> models = new LinkedList<>();
 
@@ -36,7 +124,7 @@ public class NyaGameMRModel extends ModelBiped {
     ModelRenderer PlShape3;
     ModelRenderer PlShape4;
 
-    public NyaGameMRModel() {
+    public RenderNyaGameMR() {
         super();
 
         textureWidth = 64;
