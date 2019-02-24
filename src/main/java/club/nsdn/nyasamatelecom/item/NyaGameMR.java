@@ -6,6 +6,7 @@ import club.nsdn.nyasamatelecom.renderer.RenderNyaGameMR;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,9 +18,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.Display;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,6 +63,9 @@ public class NyaGameMR extends ItemArmor {
     @Override
     @SideOnly(Side.CLIENT)
     public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float random) {
+        GlStateManager.pushMatrix();
+        double scale = Display.getHeight() / 480.0;
+        GlStateManager.scale(scale, scale, 1);
         RenderNyaGameMR.INSTANCE.drawHUDBack();
 
         RenderNyaGameMR.INSTANCE.clear();
@@ -80,9 +84,10 @@ public class NyaGameMR extends ItemArmor {
         RenderNyaGameMR.INSTANCE.print("Speed:  %1.2f m/s", v * 20);
         RenderNyaGameMR.INSTANCE.print("Vel:    %1.2f km/h", v * 20 * 3.6);
         RenderNyaGameMR.INSTANCE.print("  ");
-        RenderNyaGameMR.INSTANCE.print("[%s]", Long.toHexString((long) (4294967295.0 * (double) random)).toUpperCase());
+        RenderNyaGameMR.INSTANCE.print("[%08X]", (long) (4294967295.0 * (double) random));
 
         RenderNyaGameMR.INSTANCE.drawHUDString();
+        GlStateManager.popMatrix();
     }
 
 }

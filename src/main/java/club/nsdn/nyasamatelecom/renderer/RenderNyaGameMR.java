@@ -35,7 +35,7 @@ public class RenderNyaGameMR extends ModelBiped {
     }
 
     public static void drawTexturedColoredModalRect(int x, int y, int z, int w, int h, int color) {
-        int r = (color >> 16) & 0xFF, g = (color >> 8) & 0xFF, b = color & 0xFF, a = 128;
+        int r = (color >> 16) & 0xFF, g = (color >> 8) & 0xFF, b = color & 0xFF, a = 192;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);

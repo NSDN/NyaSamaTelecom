@@ -37,7 +37,7 @@ public class NSASMCommand extends CommandBase {
         @Override
         @Nonnull
         public String getUsage(@Nonnull ICommandSender sender) {
-            return "nsasm <code...>";
+            return "nsasm <code...> (use \";;\" as \\n)";
         }
 
         @Override
