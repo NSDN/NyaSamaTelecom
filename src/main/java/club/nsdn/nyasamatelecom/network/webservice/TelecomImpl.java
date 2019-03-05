@@ -30,7 +30,7 @@ public class TelecomImpl implements ITelecom {
         public String make() {
             return (
                 String.format("finished:%s\n", finished) +
-                (info == null ? "info:null" : String.format("info.dimension:%d\n", info.dimension)) +
+                (info == null ? "info:null\n" : String.format("info.dimension:%d\n", info.dimension)) +
                 (info == null ? "" : String.format("info.pos:(%d,%d,%d)\n", info.x, info.y, info.z)) +
                 String.format("message:%s\n", message)
             );
