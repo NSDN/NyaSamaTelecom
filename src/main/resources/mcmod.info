@@ -11,6 +11,7 @@
   "credits": "Copyright (C) NSDN 2014 - 2019",
   "logoFile": "logo.png",
   "screenshots": [],
+  "requiredMods": ["nyasamalib"],
   "dependencies": []
 }
 ]
