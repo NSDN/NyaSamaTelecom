@@ -133,12 +133,16 @@ public class RendererHelper {
         list.add(new Tuple<>("z", vec.z));
         list.sort(Comparator.comparingDouble(value -> -Math.abs(value.getSecond())));
 
-        beginSpecialLighting();
         GlStateManager.pushAttrib();
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        GL11.glLineWidth(4.0F);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDepthMask(false);
 
-        double h = vec.lengthVector() * Math.PI * 10.0;
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glLineWidth(2.0F);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+
+        double h = vec.lengthVector() * Math.PI * 10.0; float a = 0.75F;
         Util.Color3 color = Util.hsv2RGB((float) h, 1.0F, 1.0F);
 
         Vec3d v = srcPos;
@@ -146,7 +150,7 @@ public class RendererHelper {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
-        buffer.pos(v.x, v.y, v.z).color(color.r, color.g, color.b, 1.0F).endVertex();
+        buffer.pos(v.x, v.y, v.z).color(color.r, color.g, color.b, a).endVertex();
         for (Tuple<String, Double> t : list) {
             String dir = t.getFirst();
             switch (dir) {
@@ -161,12 +165,11 @@ public class RendererHelper {
                     v = v.addVector(0, 0, vec.z);
                     break;
             }
-            buffer.pos(v.x, v.y, v.z).color(color.r, color.g, color.b, 1.0F).endVertex();
+            buffer.pos(v.x, v.y, v.z).color(color.r, color.g, color.b, a).endVertex();
         }
         tessellator.draw();
 
         GlStateManager.popAttrib();
-        endSpecialLighting();
     }
 
     public static void renderConnection(TileEntityBase t) {
