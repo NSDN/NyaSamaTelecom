@@ -133,9 +133,9 @@ public class RendererHelper {
         list.add(new Tuple<>("z", vec.z));
         list.sort(Comparator.comparingDouble(value -> -Math.abs(value.getSecond())));
 
-        GlStateManager.pushAttrib();
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
         GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -169,7 +169,10 @@ public class RendererHelper {
         }
         tessellator.draw();
 
-        GlStateManager.popAttrib();
+        GL11.glDepthMask(true);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glPopAttrib();
     }
 
     public static void renderConnection(TileEntityBase t) {
