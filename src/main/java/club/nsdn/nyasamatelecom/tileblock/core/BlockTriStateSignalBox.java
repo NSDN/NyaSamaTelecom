@@ -6,7 +6,6 @@ import club.nsdn.nyasamatelecom.api.util.NSASM;
 import club.nsdn.nyasamatelecom.api.util.Util;
 import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
 import club.nsdn.nyasamatelecom.network.NetworkWrapper;
-import club.nsdn.nyasamatelecom.util.Utility;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;

@@ -1,6 +1,5 @@
 package club.nsdn.nyasamatelecom.event;
 
-import club.nsdn.nyasamatelecom.util.Utility;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -18,6 +17,6 @@ public class ClientTickHandler {
 
     @SubscribeEvent
     public void tick(TickEvent.ClientTickEvent event) {
-        Utility.setTitle();
+
     }
 }

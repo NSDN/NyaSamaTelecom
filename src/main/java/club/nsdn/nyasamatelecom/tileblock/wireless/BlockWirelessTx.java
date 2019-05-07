@@ -8,7 +8,6 @@ import club.nsdn.nyasamatelecom.api.util.Util;
 import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
 import club.nsdn.nyasamatelecom.util.TelecomProcessor;
 import club.nsdn.nyasamatelecom.network.NetworkWrapper;
-import club.nsdn.nyasamatelecom.util.Utility;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -23,7 +22,6 @@ import net.minecraft.world.World;
 import org.thewdj.telecom.IWirelessTx;
 
 import java.util.LinkedHashMap;
-import java.util.Random;
 
 /**
  * Created by drzzm32 on 2017.12.29.
