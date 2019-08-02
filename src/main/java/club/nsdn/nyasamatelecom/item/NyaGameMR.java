@@ -81,8 +81,8 @@ public class NyaGameMR extends ItemArmor {
         double v = Math.sqrt(vx * vx + vy * vy + vz * vz);
         RenderNyaGameMR.INSTANCE.print("  ");
         RenderNyaGameMR.INSTANCE.print("Motion: %1.2f m/tick", v);
-        RenderNyaGameMR.INSTANCE.print("Speed:  %1.2f m/s", v * 20);
-        RenderNyaGameMR.INSTANCE.print("Vel:    %1.2f km/h", v * 20 * 3.6);
+        RenderNyaGameMR.INSTANCE.print("Speed:  %1.2f km/h", v * 20 * 3.6);
+        RenderNyaGameMR.INSTANCE.print("V-Vel:  %1.2f m/s", vy * 20);
         RenderNyaGameMR.INSTANCE.print("  ");
         RenderNyaGameMR.INSTANCE.print("[%08X]", (long) (4294967295.0 * (double) random));
 
