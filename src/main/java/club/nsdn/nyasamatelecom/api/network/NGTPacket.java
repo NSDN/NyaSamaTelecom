@@ -1,6 +1,5 @@
 package club.nsdn.nyasamatelecom.api.network;
 
-import club.nsdn.nyasamatelecom.NyaSamaTelecom;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
@@ -39,7 +38,6 @@ public class NGTPacket implements IMessage {
     public void fromBytes(ByteBuf buf) {
         try {
             tag = (new PacketBuffer(buf)).readCompoundTag();
-            NyaSamaTelecom.logger.info("tag: " + tag);
         } catch (Exception e) {
             if (logger != null)
                 logger.error("Couldn't receive NGT info", e);
