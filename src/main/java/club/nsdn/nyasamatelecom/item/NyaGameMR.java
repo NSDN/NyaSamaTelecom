@@ -16,6 +16,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.Display;
@@ -73,8 +74,7 @@ public class NyaGameMR extends ItemArmor {
         RenderNyaGameMR.INSTANCE.print("  ");
         RenderNyaGameMR.INSTANCE.print("Hello, %s", Minecraft.getMinecraft().getSession().getUsername());
         RenderNyaGameMR.INSTANCE.print("  ");
-        String[] array = Minecraft.getMinecraft().getVersion().split("-");
-        RenderNyaGameMR.INSTANCE.print("Ver: %s", array[array.length - 1]);
+        RenderNyaGameMR.INSTANCE.print("Ver: %s", MinecraftForge.MC_VERSION);
         RenderNyaGameMR.INSTANCE.print("Tick:   %1.2f ms", Minecraft.getMinecraft().getTickLength());
         RenderNyaGameMR.INSTANCE.print("Render: %1.2f ms", Minecraft.getMinecraft().getRenderPartialTicks());
         double vx = player.posX - player.prevPosX, vy = player.posY - player.prevPosY, vz = player.posZ - player.prevPosZ;
