@@ -66,7 +66,7 @@ public class RenderNyaGameMR extends ModelBiped {
     }
 
     void renderChar(int x, int y, char c, int color) {
-        Minecraft.getMinecraft().getTextureManager().bindTexture(textureText[c]);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(textureText[c & 0xFF]);
         drawTexturedColoredModalRect(x, y, 0, SIZE, SIZE, color);
     }
 

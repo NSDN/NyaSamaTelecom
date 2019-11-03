@@ -74,7 +74,7 @@ public class NyaGameMR extends ItemArmor {
         RenderNyaGameMR.INSTANCE.print("  ");
         RenderNyaGameMR.INSTANCE.print("Hello, %s", Minecraft.getMinecraft().getSession().getUsername());
         RenderNyaGameMR.INSTANCE.print("  ");
-        RenderNyaGameMR.INSTANCE.print("Ver: %s", MinecraftForge.MC_VERSION);
+        RenderNyaGameMR.INSTANCE.print("Ver:    %s", MinecraftForge.MC_VERSION);
         RenderNyaGameMR.INSTANCE.print("Tick:   %1.2f ms", Minecraft.getMinecraft().getTickLength());
         RenderNyaGameMR.INSTANCE.print("Render: %1.2f ms", Minecraft.getMinecraft().getRenderPartialTicks());
         double vx = player.posX - player.prevPosX, vy = player.posY - player.prevPosY, vz = player.posZ - player.prevPosZ;
