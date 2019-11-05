@@ -9,8 +9,6 @@ import club.nsdn.nyasamatelecom.api.tileentity.TileEntityActuator;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityBase;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityMultiSender;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityReceiver;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
 import cn.ac.nya.forgeobj.WavefrontObject;
 import org.lwjgl.opengl.GL11;
@@ -117,16 +115,7 @@ public class SignalBoxRenderer extends AbsTileEntitySpecialRenderer {
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y  + 0.5F, (float) z + 0.5F);
 
-        RenderHelper.disableStandardItemLighting();
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-
-        if (Minecraft.isAmbientOcclusionEnabled()) {
-            GL11.glShadeModel(GL11.GL_SMOOTH);
-        } else {
-            GL11.glShadeModel(GL11.GL_FLAT);
-        }
+        //RendererHelper.beginSpecialLighting();
 
         GL11.glPushMatrix();
 
@@ -177,8 +166,14 @@ public class SignalBoxRenderer extends AbsTileEntitySpecialRenderer {
         RendererHelper.renderWithResourceAndRotation(modelBase, 0, textureBase);
         if (modelBtn != null) {
             RendererHelper.renderWithResourceAndRotation(modelBtn, 0, textureBase);
+        }
+
+        RendererHelper.beginSpecialLighting();
+
+        if (modelBtnLight != null) {
             RendererHelper.renderWithResourceAndRotation(modelBtnLight, 0, textures[isEnabled ? SIGN_W : SIGN_NONE]);
         }
+
         RendererHelper.renderWithResourceAndRotation(models[SIGN_G], 0, textures[rxState ? SIGN_G : SIGN_NONE]);
         RendererHelper.renderWithResourceAndRotation(models[SIGN_Y], 0, textures[txState ? SIGN_Y : SIGN_NONE]);
         RendererHelper.renderWithResourceAndRotation(
@@ -192,7 +187,7 @@ public class SignalBoxRenderer extends AbsTileEntitySpecialRenderer {
 
         GL11.glPopMatrix();
 
-        RenderHelper.enableStandardItemLighting();
+        RendererHelper.endSpecialLighting();
 
         GL11.glPopMatrix();
     }

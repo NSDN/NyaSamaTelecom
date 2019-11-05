@@ -4,8 +4,6 @@ import club.nsdn.nyasamatelecom.api.device.TriStateSignalBox;
 import club.nsdn.nyasamatelecom.api.render.AbsTileEntitySpecialRenderer;
 import club.nsdn.nyasamatelecom.api.render.RendererHelper;
 import club.nsdn.nyasamatelecom.api.tileentity.TileEntityBase;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
 import cn.ac.nya.forgeobj.WavefrontObject;
 import org.lwjgl.opengl.GL11;
@@ -74,16 +72,7 @@ public class TriStateSignalBoxRenderer extends AbsTileEntitySpecialRenderer {
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y  + 0.5F, (float) z + 0.5F);
 
-        RenderHelper.disableStandardItemLighting();
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-
-        if (Minecraft.isAmbientOcclusionEnabled()) {
-            GL11.glShadeModel(GL11.GL_SMOOTH);
-        } else {
-            GL11.glShadeModel(GL11.GL_FLAT);
-        }
+        //RendererHelper.beginSpecialLighting();
 
         GL11.glPushMatrix();
 
@@ -133,6 +122,8 @@ public class TriStateSignalBoxRenderer extends AbsTileEntitySpecialRenderer {
 
         RendererHelper.renderWithResourceAndRotation(modelBase, 0, textureBase);
 
+        RendererHelper.beginSpecialLighting();
+
         RendererHelper.renderWithResourceAndRotation(models[LIGHT_RXD], 0, textures[rxState ? SIGN_G : SIGN_NONE]);
         RendererHelper.renderWithResourceAndRotation(models[LIGHT_TXD], 0, textures[txState ? SIGN_Y : SIGN_NONE]);
         RendererHelper.renderWithResourceAndRotation(
@@ -147,7 +138,7 @@ public class TriStateSignalBoxRenderer extends AbsTileEntitySpecialRenderer {
 
         GL11.glPopMatrix();
 
-        RenderHelper.enableStandardItemLighting();
+        RendererHelper.endSpecialLighting();
 
         GL11.glPopMatrix();
     }
