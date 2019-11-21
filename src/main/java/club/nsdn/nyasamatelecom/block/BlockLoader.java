@@ -35,6 +35,9 @@ public class BlockLoader {
     public static LinkedHashMap<Block, Item> itemBlocks;
     public static Block logo;
 
+    public static BlockSignalBox signalBox;
+    public static BlockTriStateSignalBox triStateSignalBox;
+
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event) {
         NyaSamaTelecom.logger.info("registering Blocks");
@@ -81,10 +84,10 @@ public class BlockLoader {
         blocks.add(new BlockNSPGA(NSPGAT4C4.class, "BlockNSPGAT4C4", "nspga_t4c4i8o8r0"));
 
         blocks.add(new BlockNSASMBox());
-        blocks.add(new BlockSignalBox());
+        blocks.add(signalBox = new BlockSignalBox());
         blocks.add(new BlockSignalBoxSender());
         blocks.add(new BlockSignalBoxGetter());
-        blocks.add(new BlockTriStateSignalBox());
+        blocks.add(triStateSignalBox = new BlockTriStateSignalBox());
 
         blocks.add(new BlockRedInput());
         blocks.add(new BlockRedOutput());
