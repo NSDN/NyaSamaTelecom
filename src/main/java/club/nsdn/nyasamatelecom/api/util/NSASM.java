@@ -179,6 +179,22 @@ public abstract class NSASM extends cn.ac.nya.nsasm.NSASM {
         loadFunc(funcList);
     }
 
+    @Override
+    protected void loadParamList() {
+        super.loadParamList();
+
+        paramList.put("nil", (reg) -> {
+            if (reg == null) {
+                Register res = new Register();
+                res.type = RegType.STR;
+                res.readOnly = true;
+                res.data = "";
+                return res;
+            }
+            return reg;
+        });
+    }
+
     public abstract SimpleNetworkWrapper getWrapper();
 
     public abstract World getWorld();
