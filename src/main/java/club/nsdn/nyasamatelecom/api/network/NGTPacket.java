@@ -1,10 +1,10 @@
 package club.nsdn.nyasamatelecom.api.network;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -22,6 +22,11 @@ public class NGTPacket implements IMessage {
 
     public NGTPacket(ItemStack stack) {
         this.tag = stack.getTagCompound();
+    }
+
+    public NGTPacket(String code) {
+        this.tag = new NBTTagCompound();
+        tag.setString("code", code);
     }
 
     @Override

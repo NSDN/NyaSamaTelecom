@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -52,8 +53,15 @@ public class Util {
     public static NBTTagList getTagListFromNGT(ItemStack itemStack) {
         if (itemStack == null) return null;
         if (itemStack.getItem() instanceof NGTablet) {
-            if (itemStack.getTagCompound() == null) return null;
-            return itemStack.getTagCompound().getTagList("pages", 8);
+            NBTTagCompound tagCompound = itemStack.getTagCompound();
+            if (tagCompound == null) return null;
+            if (tagCompound.hasKey("code")) {
+                String code = tagCompound.getString("code");
+                NBTTagList list = new NBTTagList();
+                list.appendTag(new NBTTagString(code));
+                return list;
+            }
+            return tagCompound.getTagList("pages", 8);
         }
         return null;
     }

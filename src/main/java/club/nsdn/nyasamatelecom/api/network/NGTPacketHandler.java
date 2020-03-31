@@ -1,11 +1,13 @@
 package club.nsdn.nyasamatelecom.api.network;
 
 import club.nsdn.nyasamatelecom.api.tool.NGTablet;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemWritableBook;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 /**
  * Created by drzzm32 on 2018.12.13.
@@ -15,9 +17,17 @@ public class NGTPacketHandler implements IMessageHandler<NGTPacket, IMessage> {
     public IMessage onMessage(NGTPacket packet, MessageContext context) {
         EntityPlayerMP serverPlayer = context.getServerHandler().player;
 
-        ItemStack stack = serverPlayer.getHeldItemMainhand();
-        if (stack.getItem() instanceof NGTablet && packet.tag != null)
-            stack.setTagCompound(packet.tag.copy());
+        serverPlayer.getServerWorld().addScheduledTask(() -> {
+            ItemStack stack = serverPlayer.getHeldItemMainhand();
+            if (serverPlayer.getHeldItemOffhand().getItem() instanceof NGTablet)
+                stack = serverPlayer.getHeldItemOffhand();
+            if (stack.getItem() instanceof NGTablet) {
+                if (packet.tag.hasKey("code"))
+                    stack.setTagInfo("code", new NBTTagString(packet.tag.getString("code")));
+                else if (ItemWritableBook.isNBTValid(packet.tag))
+                    stack.setTagInfo("pages", packet.tag.getTagList("pages", 8));
+            }
+        });
 
         return null;
     }
