@@ -39,12 +39,23 @@ public class NGTEditor extends JFrame {
         area.setText(code);
     }
 
+    private Font getFont(String name, float size) {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        for (Font f : ge.getAllFonts())
+            if (f.getName().equalsIgnoreCase(name))
+                return f.deriveFont(size);
+        for (Font f : ge.getAllFonts())
+            if (f.getName().equalsIgnoreCase("Arial"))
+                return f.deriveFont(size);
+        return null;
+    }
+
     private void init() {
         panel = new JPanel();
         panel.setLayout(new BorderLayout(4, 4));
         panel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         area = new JTextArea();
-        area.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        area.setFont(this.getFont("Courier New", 14.0F));
         area.setWrapStyleWord(true);
         area.setLineWrap(true);
         area.setTabSize(4);
