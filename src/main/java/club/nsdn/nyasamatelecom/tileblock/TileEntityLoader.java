@@ -42,6 +42,7 @@ public class TileEntityLoader {
         tileEntities = new LinkedList<>();
 
         tileEntities.add(BlockNSPGA.TileEntityNSPGA.class);
+        tileEntities.add(BlockNSPGAFlex.TileEntityNSPGAFlex.class);
         tileEntities.add(BlockNSASMBox.TileEntityNSASMBox.class);
         tileEntities.add(BlockSignalBox.TileEntitySignalBox.class);
         tileEntities.add(BlockSignalBoxSender.TileEntitySignalBoxSender.class);

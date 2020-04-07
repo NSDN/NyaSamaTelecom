@@ -45,6 +45,7 @@ public class TileEntityModelBinder {
         renderers = new LinkedHashMap<>();
 
         renderers.put(BlockNSPGA.TileEntityNSPGA.class, new NSPGARenderer());
+        renderers.put(BlockNSPGAFlex.TileEntityNSPGAFlex.class, new NSPGAFlexRenderer());
         renderers.put(BlockNSASMBox.TileEntityNSASMBox.class, new SignalBoxRenderer(false, "nsasm_box_base"));
         renderers.put(BlockSignalBox.TileEntitySignalBox.class, new SignalBoxRenderer(false));
         renderers.put(BlockSignalBoxSender.TileEntitySignalBoxSender.class, new SignalBoxRenderer(true));

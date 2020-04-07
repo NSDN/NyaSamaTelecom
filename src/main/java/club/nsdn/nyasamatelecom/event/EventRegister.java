@@ -1,9 +1,11 @@
 package club.nsdn.nyasamatelecom.event;
 
+import club.nsdn.nyasamatelecom.NyaSamaTelecom;
 import club.nsdn.nyasamatelecom.block.BlockLoader;
 import club.nsdn.nyasamatelecom.item.ItemLoader;
 import club.nsdn.nyasamatelecom.tileblock.TileEntityLoader;
 import club.nsdn.nyasamatelecom.tileblock.TileEntityModelBinder;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 
 /**
@@ -19,6 +21,7 @@ public class EventRegister {
         MinecraftForge.EVENT_BUS.register(TelecomHandler.instance());
 
         MinecraftForge.EVENT_BUS.register(TileEntityLoader.instance());
+        ForgeChunkManager.setForcedChunkLoadingCallback(NyaSamaTelecom.getInstance(), ChunkLoaderHandler.instance());
     }
 
     public static void registerServer() {

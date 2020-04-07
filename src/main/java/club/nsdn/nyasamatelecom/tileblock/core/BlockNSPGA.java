@@ -374,6 +374,7 @@ public class BlockNSPGA extends SignalBox {
                         dev.outputsLen = 0; dev.outputs = new String[0];
                         dev.flashLen = 0; dev.flash = new int[0];
                         dev.device = null; dev.configured = false;
+                        dev.refresh();
 
                         Util.say(player, "info.nspga.reset");
                         return true;
@@ -402,6 +403,8 @@ public class BlockNSPGA extends SignalBox {
                         @Override
                         public TileEntityNSPGA getNSPGA() { return dev; }
                     }.run();
+
+                    dev.refresh();
 
                     Util.say(player, "info.nspga.set");
                 }

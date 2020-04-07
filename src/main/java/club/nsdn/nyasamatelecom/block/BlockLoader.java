@@ -4,6 +4,9 @@ import club.nsdn.nyasamatelecom.NyaSamaTelecom;
 import club.nsdn.nyasamatelecom.tileblock.core.*;
 import club.nsdn.nyasamatelecom.tileblock.redstone.*;
 import club.nsdn.nyasamatelecom.tileblock.wireless.*;
+import cn.ac.nya.nspga.flex.NSPGAF011NHV1;
+import cn.ac.nya.nspga.flex.NSPGAF211NHV1;
+import cn.ac.nya.nspga.flex.NSPGAF344NHV1;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.block.Block;
@@ -82,6 +85,10 @@ public class BlockLoader {
 
         blocks.add(new BlockNSPGA(NSPGAT0C0.class, "BlockNSPGAT0C0", "nspga_t0c0i8o8r0"));
         blocks.add(new BlockNSPGA(NSPGAT4C4.class, "BlockNSPGAT4C4", "nspga_t4c4i8o8r0"));
+
+        blocks.add(new BlockNSPGAFlex(NSPGAF011NHV1.class, "BlockNSPGAF011", "nspga_f011nhv1", 8));
+        blocks.add(new BlockNSPGAFlex(NSPGAF211NHV1.class, "BlockNSPGAF211", "nspga_f211nhv1", 8));
+        blocks.add(new BlockNSPGAFlex(NSPGAF344NHV1.class, "BlockNSPGAF344", "nspga_f344nhv1", 32));
 
         blocks.add(new BlockNSASMBox());
         blocks.add(signalBox = new BlockSignalBox());
