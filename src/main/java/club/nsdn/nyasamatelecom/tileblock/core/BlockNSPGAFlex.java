@@ -51,6 +51,8 @@ public class BlockNSPGAFlex extends SignalBox {
 
         public INSPGAFlex device = null;
         public boolean configured = false;
+        public int timeBase = 1;
+        private int counter = 0;
 
         public ArrayList<String> inputs = new ArrayList<>();
         public ArrayList<String> outputs = new ArrayList<>();
@@ -87,8 +89,12 @@ public class BlockNSPGAFlex extends SignalBox {
                 dev.device = ((BlockNSPGAFlex) block).createDevice(dev.code);
                 INSPGAFlex.schedule(() -> {
                     dev.device.initialize();
+                    int tb = dev.device.timebase();
                     if (world instanceof WorldServer)
-                        ((WorldServer) world).addScheduledTask(() -> dev.configured = true);
+                        ((WorldServer) world).addScheduledTask(() -> {
+                            dev.configured = true;
+                            dev.timeBase = tb;
+                        });
                 });
             }
         }
@@ -194,10 +200,21 @@ public class BlockNSPGAFlex extends SignalBox {
 
                 boolean state = false;
                 if (dev.device != null && dev.configured && !dev.isEnabled) {
-                    int input = dev.input();
-                    int output = dev.device.output(input).intValue();
-                    dev.output(output);
-                    dev.refresh();
+                    if (dev.counter < dev.timeBase)
+                        dev.counter += 1;
+                    if (dev.counter >= dev.timeBase) {
+                        dev.counter = 0;
+
+                        int input = dev.input();
+                        INSPGAFlex.schedule(() -> {
+                            int output = dev.device.output(input).intValue();
+                            if (world instanceof WorldServer)
+                                ((WorldServer) world).addScheduledTask(() -> {
+                                    dev.output(output);
+                                    dev.refresh();
+                                });
+                        });
+                    }
                     state = true;
                 }
 
@@ -387,7 +404,6 @@ public class BlockNSPGAFlex extends SignalBox {
                 }
             }
 
-            stack = player.getHeldItem(hand);
             if (world.isRemote && stack.getItem() instanceof NGTablet) {
                 if (dev.code == null || dev.code.isEmpty())
                     dev.code = createDevice("").getDefaultCode();
