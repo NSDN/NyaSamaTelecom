@@ -6,6 +6,7 @@ import club.nsdn.nyasamatelecom.api.tool.NGTablet;
 import club.nsdn.nyasamatelecom.api.util.NSASM;
 import club.nsdn.nyasamatelecom.api.util.Util;
 import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
+import club.nsdn.nyasamatelecom.item.NyaGameMR;
 import club.nsdn.nyasamatelecom.network.NetworkWrapper;
 import club.nsdn.nyasamatelecom.util.TelecomProcessor;
 import cn.ac.nya.nspga.INSPGA;
@@ -182,6 +183,9 @@ public class BlockNSPGA extends SignalBox {
                 }
 
                 dev.isEnabled = isEnabled;
+
+                if (dev.inverterEnabled)
+                    dev.isEnabled = !dev.isEnabled;
 
                 if (dev.device == null && dev.getBlockType() instanceof BlockNSPGA)
                     dev.device = ((BlockNSPGA) dev.getBlockType()).createDevice();
@@ -362,8 +366,8 @@ public class BlockNSPGA extends SignalBox {
         if (tileEntity instanceof TileEntityNSPGA) {
             TileEntityNSPGA dev = (TileEntityNSPGA) tileEntity;
 
-            ItemStack stack;
-            if (!world.isRemote && player.isSneaking()) {
+            ItemStack stack = player.getHeldItem(hand);
+            if (!world.isRemote && stack.getItem() instanceof NyaGameMR) {
                 for (int i = 0; i < 9; i++) {
                     stack = player.inventory.mainInventory.get(i);
                     if (stack.isEmpty()) continue;
@@ -382,7 +386,6 @@ public class BlockNSPGA extends SignalBox {
                 }
             }
 
-            stack = player.getHeldItem(hand);
             if (!stack.isEmpty()) {
                 NBTTagList list = Util.getTagListFromNGT(stack);
                 if (list == null) return false;

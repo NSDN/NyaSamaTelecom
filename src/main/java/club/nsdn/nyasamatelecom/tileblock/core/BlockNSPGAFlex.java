@@ -3,9 +3,10 @@ package club.nsdn.nyasamatelecom.tileblock.core;
 import club.nsdn.nyasamatelecom.NyaSamaTelecom;
 import club.nsdn.nyasamatelecom.api.device.SignalBox;
 import club.nsdn.nyasamatelecom.api.tileentity.ITileAnchor;
-import club.nsdn.nyasamatelecom.api.tool.ToolBase;
+import club.nsdn.nyasamatelecom.api.tool.NGTablet;
 import club.nsdn.nyasamatelecom.api.util.Util;
 import club.nsdn.nyasamatelecom.creativetab.CreativeTabLoader;
+import club.nsdn.nyasamatelecom.item.NyaGameMR;
 import club.nsdn.nyasamatelecom.network.NSPGAPacket;
 import club.nsdn.nyasamatelecom.network.NetworkWrapper;
 import club.nsdn.nyasamatelecom.util.TelecomProcessor;
@@ -169,13 +170,51 @@ public class BlockNSPGAFlex extends SignalBox {
             if (tileEntity instanceof TileEntityNSPGAFlex) {
                 TileEntityNSPGAFlex dev = (TileEntityNSPGAFlex) tileEntity;
 
+                int meta = dev.META;
+                int old = meta;
+                boolean isEnabled;
+
+                if (dev.getSender() == null) {
+                    isEnabled = (meta & 0x8) != 0;
+                    meta &= 0x7;
+                } else {
+                    isEnabled = dev.senderIsPowered();
+
+                    if (isEnabled) meta |= 0x8;
+                    else meta &= 0x7;
+                }
+
+                dev.isEnabled = isEnabled;
+
+                if (dev.inverterEnabled)
+                    dev.isEnabled = !dev.isEnabled;
+
                 if (dev.device == null || !dev.configured)
                     tryInitialize(this);
 
-                if (dev.device != null && dev.configured) {
+                boolean state = false;
+                if (dev.device != null && dev.configured && !dev.isEnabled) {
                     int input = dev.input();
                     int output = dev.device.output(input).intValue();
                     dev.output(output);
+                    dev.refresh();
+                    state = true;
+                }
+
+                if (!tryControlFirst(state)) {
+                    if (!tryControlSecond(state)) {
+                        if (!setTargetSender(state)) {
+                            if (!setTargetGetter(state)) {
+                                if (getTarget() != null) {
+                                    controlTarget(state);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (old != meta) {
+                    dev.META = meta;
                     dev.refresh();
                 }
             }
@@ -332,13 +371,13 @@ public class BlockNSPGAFlex extends SignalBox {
         if (tileEntity instanceof TileEntityNSPGAFlex) {
             TileEntityNSPGAFlex dev = (TileEntityNSPGAFlex) tileEntity;
 
-            ItemStack stack;
-            if (!world.isRemote && player.isSneaking()) {
+            ItemStack stack = player.getHeldItem(hand);
+            if (!world.isRemote && stack.getItem() instanceof NyaGameMR) {
                 for (int i = 0; i < 9; i++) {
                     stack = player.inventory.mainInventory.get(i);
                     if (stack.isEmpty()) continue;
                     if (stack.getItem() == Items.AIR) continue;
-                    if (stack.getItem() instanceof ToolBase) {
+                    if (stack.getItem() instanceof NGTablet) {
 
                         TileEntityNSPGAFlex.tryInitialize(dev);
 
@@ -349,7 +388,7 @@ public class BlockNSPGAFlex extends SignalBox {
             }
 
             stack = player.getHeldItem(hand);
-            if (world.isRemote && stack.getItem() instanceof ToolBase) {
+            if (world.isRemote && stack.getItem() instanceof NGTablet) {
                 if (dev.code == null || dev.code.isEmpty())
                     dev.code = createDevice("").getDefaultCode();
 
