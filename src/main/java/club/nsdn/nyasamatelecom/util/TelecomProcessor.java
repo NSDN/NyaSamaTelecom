@@ -92,7 +92,6 @@ public class TelecomProcessor {
             }
         });
 
-        innerOutputs.clear();
         innerInputs.forEach((k, v) -> innerOutputs.put(k, v > 0));
         innerInputs.clear();
 
