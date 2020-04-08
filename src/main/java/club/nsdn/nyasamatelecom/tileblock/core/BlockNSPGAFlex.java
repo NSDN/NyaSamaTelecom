@@ -10,6 +10,7 @@ import club.nsdn.nyasamatelecom.item.NyaGameMR;
 import club.nsdn.nyasamatelecom.network.NSPGAPacket;
 import club.nsdn.nyasamatelecom.network.NetworkWrapper;
 import club.nsdn.nyasamatelecom.util.TelecomProcessor;
+import cn.ac.nya.nspga.flex.BinUtil;
 import cn.ac.nya.nspga.flex.INSPGAFlex;
 import cn.ac.nya.nspga.flex.NSPGAEditor;
 import net.minecraft.block.Block;
@@ -139,7 +140,8 @@ public class BlockNSPGAFlex extends SignalBox {
             TelecomProcessor.DeviceInfo info;
             info = TelecomProcessor.instance().device(dev);
             boolean result;
-            if (info == null) return false;
+            if (info == null) // InnerBus
+                return TelecomProcessor.instance().get(dev);
             if (!TelecomProcessor.instance().isTx(info)) {
                 return false;
             }
@@ -150,21 +152,25 @@ public class BlockNSPGAFlex extends SignalBox {
         private void output(String dev, boolean state) {
             TelecomProcessor.DeviceInfo info;
             info = TelecomProcessor.instance().device(dev);
-            if (info == null) return;
+            if (info == null) { // InnerBus
+                TelecomProcessor.instance().set(dev, state);
+                return;
+            }
             if (!TelecomProcessor.instance().isRx(info)) {
                 return;
             }
             TelecomProcessor.instance().set(info, state);
         }
 
-        public int input() {
-            int result = 0x00;
+        public long input() {
+            long result = 0x00;
             for (int i = 0; i < inputs.size(); i++)
                 result |= ((input(inputs.get(i)) ? 0x1 : 0x0) << i);
-            return result;
+            return BinUtil.uint32_t(result);
         }
 
-        public void output(int data) {
+        public void output(long data) {
+            data = BinUtil.uint32_t(data);
             for (int i = 0; i < outputs.size(); i++)
                 output(outputs.get(i), ((data >> i) & 0x1) != 0);
         }
@@ -205,9 +211,9 @@ public class BlockNSPGAFlex extends SignalBox {
                     if (dev.counter >= dev.timeBase) {
                         dev.counter = 0;
 
-                        int input = dev.input();
+                        long input = dev.input();
                         INSPGAFlex.schedule(() -> {
-                            int output = dev.device.output(input).intValue();
+                            long output = dev.device.output(input).longValue();
                             if (world instanceof WorldServer)
                                 ((WorldServer) world).addScheduledTask(() -> {
                                     dev.output(output);

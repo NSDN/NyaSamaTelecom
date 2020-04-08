@@ -9,6 +9,7 @@ import org.thewdj.telecom.IWirelessRx;
 import org.thewdj.telecom.IWirelessTx;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -45,6 +46,9 @@ public class TelecomProcessor {
     private LinkedHashMap<DeviceInfo, State> inputs;
     private LinkedHashMap<DeviceInfo, State> outputs;
 
+    private LinkedHashMap<String, Integer> innerInputs;
+    private LinkedHashMap<String, Boolean> innerOutputs;
+
     private final ReentrantLock lock = new ReentrantLock();
 
     private int gcCounter;
@@ -55,6 +59,9 @@ public class TelecomProcessor {
 
         inputs = new LinkedHashMap<>();
         outputs = new LinkedHashMap<>();
+
+        innerInputs = new LinkedHashMap<>();
+        innerOutputs = new LinkedHashMap<>();
 
         gcCounter = 0;
     }
@@ -84,6 +91,10 @@ public class TelecomProcessor {
                 }
             }
         });
+
+        innerOutputs.clear();
+        innerInputs.forEach((k, v) -> innerOutputs.put(k, v > 0));
+        innerInputs.clear();
 
         if (gcCounter < 20) gcCounter += 1;
         else {
@@ -158,6 +169,25 @@ public class TelecomProcessor {
                 if (state == State.ONE) return true;
                 if (state == State.ZERO) return false;
             }
+            return false;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void set(String id, boolean state) {
+        lock.lock();
+        if (!innerInputs.containsKey(id))
+            innerInputs.put(id, 0);
+        innerInputs.put(id, state ? 1 : -1);
+        lock.unlock();
+    }
+
+    public boolean get(String id) {
+        try {
+            lock.lock();
+            if (innerOutputs.containsKey(id))
+                return innerOutputs.get(id);
             return false;
         } finally {
             lock.unlock();
