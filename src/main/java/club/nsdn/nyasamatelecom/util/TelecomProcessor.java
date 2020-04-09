@@ -1,15 +1,14 @@
 package club.nsdn.nyasamatelecom.util;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraft.tileentity.TileEntity;
-import org.thewdj.telecom.IWireless;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
+import org.thewdj.telecom.IWireless;
 import org.thewdj.telecom.IWirelessRx;
 import org.thewdj.telecom.IWirelessTx;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -178,7 +177,9 @@ public class TelecomProcessor {
         lock.lock();
         if (!innerInputs.containsKey(id))
             innerInputs.put(id, 0);
-        innerInputs.put(id, state ? 1 : -1);
+        int val = innerInputs.get(id);
+        val += (state ? 1 : -1);
+        innerInputs.put(id, val);
         lock.unlock();
     }
 

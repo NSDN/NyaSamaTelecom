@@ -12,13 +12,14 @@ import club.nsdn.nyasamatelecom.network.NetworkWrapper;
 import club.nsdn.nyasamatelecom.util.TelecomProcessor;
 import cn.ac.nya.nspga.flex.BinUtil;
 import cn.ac.nya.nspga.flex.INSPGAFlex;
-import cn.ac.nya.nspga.flex.NSPGAEditor;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -29,7 +30,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -54,6 +54,7 @@ public class BlockNSPGAFlex extends SignalBox {
         public boolean configured = false;
         public int timeBase = 1;
         private int counter = 0;
+        private long output = 0;
 
         public ArrayList<String> inputs = new ArrayList<>();
         public ArrayList<String> outputs = new ArrayList<>();
@@ -95,6 +96,20 @@ public class BlockNSPGAFlex extends SignalBox {
                         ((WorldServer) world).addScheduledTask(() -> {
                             dev.configured = true;
                             dev.timeBase = tb;
+                        });
+                }, () -> {
+                    if (world instanceof WorldServer)
+                        ((WorldServer) world).addScheduledTask(() -> {
+                            BlockPos pos = dev.getPos();
+                            dev.releaseTicket();
+                            world.removeTileEntity(pos);
+                            world.setBlockToAir(pos);
+                            double x = pos.getX() + 0.5;
+                            double y = pos.getY() + 0.5;
+                            double z = pos.getZ() + 0.5;
+                            world.createExplosion(null, x, y, z,
+                                    2, false);
+                            world.addWeatherEffect(new EntityLightningBolt(world, x, y, z, true));
                         });
                 });
             }
@@ -140,7 +155,7 @@ public class BlockNSPGAFlex extends SignalBox {
             TelecomProcessor.DeviceInfo info;
             info = TelecomProcessor.instance().device(dev);
             boolean result;
-            if (info == null) // InnerBus
+            if (info == null && dev.contains("bus")) // InnerBus
                 return TelecomProcessor.instance().get(dev);
             if (!TelecomProcessor.instance().isTx(info)) {
                 return false;
@@ -152,7 +167,7 @@ public class BlockNSPGAFlex extends SignalBox {
         private void output(String dev, boolean state) {
             TelecomProcessor.DeviceInfo info;
             info = TelecomProcessor.instance().device(dev);
-            if (info == null) { // InnerBus
+            if (info == null && dev.contains("bus")) { // InnerBus
                 TelecomProcessor.instance().set(dev, state);
                 return;
             }
@@ -212,12 +227,26 @@ public class BlockNSPGAFlex extends SignalBox {
                         dev.counter = 0;
 
                         long input = dev.input();
+                        dev.output(dev.output);
+
                         INSPGAFlex.schedule(() -> {
                             long output = dev.device.output(input).longValue();
                             if (world instanceof WorldServer)
                                 ((WorldServer) world).addScheduledTask(() -> {
-                                    dev.output(output);
-                                    dev.refresh();
+                                    dev.output = output;
+                                });
+                        }, () -> {
+                            if (world instanceof WorldServer)
+                                ((WorldServer) world).addScheduledTask(() -> {
+                                    dev.releaseTicket();
+                                    world.removeTileEntity(pos);
+                                    world.setBlockToAir(pos);
+                                    double x = pos.getX() + 0.5;
+                                    double y = pos.getY() + 0.5;
+                                    double z = pos.getZ() + 0.5;
+                                    world.createExplosion(null, x, y, z,
+                                            2, false);
+                                    world.addWeatherEffect(new EntityLightningBolt(world, x, y, z, true));
                                 });
                         });
                     }
@@ -395,46 +424,39 @@ public class BlockNSPGAFlex extends SignalBox {
             TileEntityNSPGAFlex dev = (TileEntityNSPGAFlex) tileEntity;
 
             ItemStack stack = player.getHeldItem(hand);
-            if (!world.isRemote && stack.getItem() instanceof NyaGameMR) {
-                for (int i = 0; i < 9; i++) {
-                    stack = player.inventory.mainInventory.get(i);
-                    if (stack.isEmpty()) continue;
-                    if (stack.getItem() == Items.AIR) continue;
-                    if (stack.getItem() instanceof NGTablet) {
+            if (!world.isRemote && player instanceof EntityPlayerMP) {
+                EntityPlayerMP mp = (EntityPlayerMP) player;
 
-                        TileEntityNSPGAFlex.tryInitialize(dev);
+                if (stack.getItem() instanceof NyaGameMR) {
+                    for (int i = 0; i < 9; i++) {
+                        stack = player.inventory.mainInventory.get(i);
+                        if (stack.isEmpty()) continue;
+                        if (stack.getItem() == Items.AIR) continue;
+                        if (stack.getItem() instanceof NGTablet) {
 
-                        Util.say(player, "info.nspga.reconf");
-                        return true;
+                            TileEntityNSPGAFlex.tryInitialize(dev);
+
+                            Util.say(player, "info.nspga.reconf");
+                            return true;
+                        }
                     }
+                } else if (stack.getItem() instanceof NGTablet) {
+                    if (dev.code == null || dev.code.isEmpty())
+                        dev.code = createDevice("").getDefaultCode();
+
+                    int in = dev.inputs.size(), out = dev.outputs.size(), io = ioCount;
+                    String[] inputs = dev.inputs.toArray(new String[]{});
+                    String[] outputs = dev.outputs.toArray(new String[]{});
+                    if ((in == 0 && out == 0) || (in != io || out != io))
+                        NetworkWrapper.instance.sendTo(new NSPGAPacket(pos, io, dev.code), mp);
+                    else
+                        NetworkWrapper.instance.sendTo(new NSPGAPacket(pos, io, inputs, outputs, dev.code), mp);
+
+                    return true;
                 }
-            }
-
-            if (world.isRemote && stack.getItem() instanceof NGTablet) {
-                if (dev.code == null || dev.code.isEmpty())
-                    dev.code = createDevice("").getDefaultCode();
-
-                if (
-                        (dev.inputs.isEmpty() && dev.outputs.isEmpty()) ||
-                                (dev.inputs.size() != ioCount || dev.outputs.size() != ioCount)
-                )
-                    new NSPGAEditor(ioCount, ioCount, dev.code).setCallback((i, o, c) -> {
-                        NetworkWrapper.instance.sendToServer(new NSPGAPacket(pos, i, o, c));
-                        Minecraft.getMinecraft().addScheduledTask(() -> {
-                            player.sendMessage(new TextComponentTranslation("info.nspga.flash"));
-                        });
-                    });
-                else
-                    new NSPGAEditor(dev.inputs.toArray(new String[]{}), dev.outputs.toArray(new String[]{}), dev.code)
-                            .setCallback((i, o, c) -> {
-                                NetworkWrapper.instance.sendToServer(new NSPGAPacket(pos, i, o, c));
-                                Minecraft.getMinecraft().addScheduledTask(() -> {
-                                    player.sendMessage(new TextComponentTranslation("info.nspga.flash"));
-                                });
-                            });
-
-                player.sendMessage(new TextComponentTranslation("info.nspga.editor"));
-                return true;
+            } else {
+                Item item = stack.getItem();
+                return item instanceof NyaGameMR || item instanceof NGTablet;
             }
         }
 

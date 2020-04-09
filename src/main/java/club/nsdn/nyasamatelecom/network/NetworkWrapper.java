@@ -18,5 +18,7 @@ public class NetworkWrapper {
         int pos = NetworkRegister.register(NyaSamaTelecom.logger, instance, 0);
         NSPGAPacket.logger = NyaSamaTelecom.logger;
         instance.registerMessage(NSPGAPacketHandler.class, NSPGAPacket.class, pos, Side.SERVER);
+        pos += 1;
+        instance.registerMessage(NSPGAEditorHandler.class, NSPGAPacket.class, pos, Side.CLIENT);
     }
 }
