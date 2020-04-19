@@ -1,6 +1,8 @@
 package club.nsdn.nyasamatelecom.proxy;
 
+import club.nsdn.nyasamatelecom.api.tool.util.NGTCommand;
 import club.nsdn.nyasamatelecom.event.EventRegister;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.event.*;
 
 /**
@@ -12,6 +14,7 @@ public class ClientProxy extends CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
         EventRegister.registerClient();
+        ClientCommandHandler.instance.registerCommand(new NGTCommand());
     }
 
     @Override
