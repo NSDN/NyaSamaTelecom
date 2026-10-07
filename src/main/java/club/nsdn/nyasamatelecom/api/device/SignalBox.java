@@ -156,7 +156,7 @@ public class SignalBox extends DeviceBase {
     }
 
     public SignalBox(BlockBehaviour.Properties properties,
-                     Supplier<BlockEntityType<? extends TileEntityBase>> blockEntityType) {
+                     Supplier<BlockEntityType<?>> blockEntityType) {
         super(properties, blockEntityType);
     }
 

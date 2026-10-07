@@ -49,7 +49,7 @@ import java.util.function.Supplier;
  */
 public abstract class DeviceBase extends Block implements EntityBlock {
 
-    private final Supplier<BlockEntityType<? extends TileEntityBase>> blockEntityType;
+    private final Supplier<BlockEntityType<?>> blockEntityType;
 
     /**
      * @param properties      the usual block properties; callers should include {@code noOcclusion()}
@@ -57,7 +57,7 @@ public abstract class DeviceBase extends Block implements EntityBlock {
      *                        entity type are registered through separate deferred registers
      */
     protected DeviceBase(BlockBehaviour.Properties properties,
-                         Supplier<BlockEntityType<? extends TileEntityBase>> blockEntityType) {
+                         Supplier<BlockEntityType<?>> blockEntityType) {
         super(properties);
         this.blockEntityType = blockEntityType;
     }

@@ -76,7 +76,7 @@ public class TriStateSignalBox extends DeviceBase {
     }
 
     public TriStateSignalBox(BlockBehaviour.Properties properties,
-                             Supplier<BlockEntityType<? extends TileEntityBase>> blockEntityType) {
+                             Supplier<BlockEntityType<?>> blockEntityType) {
         super(properties, blockEntityType);
     }
 

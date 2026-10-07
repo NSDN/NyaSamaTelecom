@@ -88,7 +88,7 @@ public class SignalBoxSender extends DeviceBase {
     }
 
     public SignalBoxSender(BlockBehaviour.Properties properties,
-                           Supplier<BlockEntityType<? extends TileEntityBase>> blockEntityType) {
+                           Supplier<BlockEntityType<?>> blockEntityType) {
         super(properties, blockEntityType);
     }
 
