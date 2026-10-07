@@ -1,0 +1,31 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "All Rights Reserved"
+
+[[mods]]
+modId = "nyasamatelecom"
+version = "3.0.0"
+displayName = "NyaSama Telecom"
+authors = "drzzm32"
+description = '''NyaSama telecom mod.'''
+
+[[dependencies.nyasamatelecom]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.nyasamatelecom]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.22)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.nyasamatelecom]]
+modId = "nyasamalib"
+type = "required"
+versionRange = "[3.0.0,)"
+ordering = "AFTER"
+side = "BOTH"
