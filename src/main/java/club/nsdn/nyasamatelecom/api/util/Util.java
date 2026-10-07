@@ -1,9 +1,15 @@
 package club.nsdn.nyasamatelecom.api.util;
 
+import club.nsdn.nyasamatelecom.api.tool.NGTablet;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -18,10 +24,9 @@ import net.minecraft.world.level.block.state.BlockState;
  * algorithms before them). They are kept here for now so this pass stays a faithful port of the
  * package; the move is recorded as a follow-up rather than done silently.</p>
  *
- * <p><b>Deferred:</b> 1.12.2 also had {@code getTagListFromNGT(ItemStack)}, which reads the page list
- * off an {@code NGTablet} item. The tablet lives in the {@code api/tool} package (not ported yet) and
- * item NBT moved to data components in 1.21.1, so that method is left out until the tool package is
- * ported.</p>
+ * <p><b>No longer deferred:</b> {@code getTagListFromNGT(ItemStack)} is now implemented against the
+ * {@code CUSTOM_DATA} component, now that the {@code NGTablet} item exists. (The 1.12.2 version read
+ * item NBT directly; 1.21.1 moved item data to components.)</p>
  */
 public class Util {
 
@@ -56,6 +61,33 @@ public class Util {
         color.g = gt + m;
         color.b = bt + m;
         return color;
+    }
+
+    /**
+     * Ported from the 1.12.2 {@code getTagListFromNGT}. No longer deferred: the {@code NGTablet} item
+     * now exists, so the {@code instanceof} test is the real one.
+     *
+     * <p>The 1.12.2 version read {@code itemStack.getTagCompound()} and returned either a one-entry
+     * list built from the {@code code} string or the {@code pages} list. In 1.21.1 that data lives in
+     * the {@code CUSTOM_DATA} component, so the tag is taken from there; the shape of the result is
+     * unchanged.</p>
+     */
+    public static ListTag getTagListFromNGT(ItemStack itemStack) {
+        if (itemStack == null || !(itemStack.getItem() instanceof NGTablet)) {
+            return null;
+        }
+        CustomData data = itemStack.get(DataComponents.CUSTOM_DATA);
+        if (data == null) {
+            return null;
+        }
+        net.minecraft.nbt.CompoundTag tag = data.copyTag();
+        if (tag.contains("code")) {
+            String code = tag.getString("code");
+            ListTag list = new ListTag();
+            list.add(StringTag.valueOf(code));
+            return list;
+        }
+        return tag.getList("pages", net.minecraft.nbt.Tag.TAG_STRING);
     }
 
     /** Action-bar message; 1.12.2 used a {@code TextComponentTranslation} to a server player only. */

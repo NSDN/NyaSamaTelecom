@@ -1,7 +1,7 @@
 package club.nsdn.nyasamatelecom.api.network;
 
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
+import club.nsdn.nyasamatelecom.api.tool.NGTablet;
+import net.minecraft.core.component.DataComponents;import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -65,10 +65,10 @@ public record NGTPacket(CompoundTag tag) implements CustomPacketPayload {
             return;
         }
         ItemStack stack = serverPlayer.getMainHandItem();
-        if (NGTabletShim.isTablet(serverPlayer.getOffhandItem())) {
+        if (serverPlayer.getOffhandItem().getItem() instanceof NGTablet) {
             stack = serverPlayer.getOffhandItem();
         }
-        if (!NGTabletShim.isTablet(stack)) {
+        if (!(stack.getItem() instanceof NGTablet)) {
             return;
         }
 
