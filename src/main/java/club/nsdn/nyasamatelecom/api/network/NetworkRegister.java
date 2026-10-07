@@ -35,5 +35,8 @@ public final class NetworkRegister {
         // 1.12.2: NGTPacket was Side.SERVER (client -> server), ParticlePacket Side.CLIENT.
         registrar.playToServer(NGTPacket.TYPE, NGTPacket.STREAM_CODEC, NGTPacket::handle);
         registrar.playToClient(ParticlePacket.TYPE, ParticlePacket.STREAM_CODEC, ParticlePacket::handle);
+        // Added during the port (see docs/00-PORT-PLAN.md appendix B): /ngt hands the script to the
+        // client so the in-game editor can display it, replacing the removed Swing window.
+        registrar.playToClient(NGTEditorPacket.TYPE, NGTEditorPacket.STREAM_CODEC, NGTEditorPacket::handle);
     }
 }

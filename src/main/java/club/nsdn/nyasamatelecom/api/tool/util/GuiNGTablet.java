@@ -95,6 +95,53 @@ public class GuiNGTablet extends Screen {
         ++this.updateCount;
     }
 
+    /**
+     * Replaces the page list with the given script text.
+     *
+     * <p>1.12.2 had an equivalent setter on the Swing editor. The text is unpacked with the same rule
+     * typing uses: append to the current page while it fits (118 px wrapped and under 256 characters),
+     * otherwise open a page. Newlines are preserved, since {@code NSASM.getCodeString} joined pages
+     * with one.</p>
+     */
+    public void setCode(String code) {
+        if (this.font == null) {
+            // setCode is normally called right after construction and before init(); the wrap test
+            // needs a font, so defer the unpacking to init().
+            this.pendingCode = code;
+            return;
+        }
+        unpackCode(code);
+    }
+
+    /** Set when setCode runs before the font exists; consumed by init(). */
+    private String pendingCode;
+
+    private void unpackCode(String code) {
+        this.ngtPages = new ListTag();
+        this.ngtPages.add(StringTag.valueOf(""));
+        this.currPage = 0;
+        this.ngtTotalPages = 1;
+
+        String[] lines = code.split("\n", -1);
+        for (int i = 0; i < lines.length; i++) {
+            String piece = lines[i] + (i < lines.length - 1 ? "\n" : "");
+            String candidate = this.pageGetCurrent() + piece;
+            int height = this.font.wordWrapHeight(candidate + ChatFormatting.BLACK + "_", 118);
+            if (height <= 118 && candidate.length() < 256) {
+                this.pageSetCurrent(candidate);
+            } else {
+                this.addNewPage();
+                if (this.currPage < this.ngtTotalPages - 1) {
+                    ++this.currPage;
+                }
+                String head = piece.length() >= 256 ? piece.substring(0, 255) : piece;
+                this.pageSetCurrent(head);
+            }
+        }
+        this.isNotEmpty = true;
+        this.updateButtons();
+    }
+
     @Override
     protected void init() {
         int left = (this.width - this.ngtImageWidth) / 2;
@@ -113,6 +160,12 @@ public class GuiNGTablet extends Screen {
         this.buttonNextPage = this.addRenderableWidget(new NextPageButton(1, left + 120, offset + 160, true));
         this.buttonPreviousPage = this.addRenderableWidget(new NextPageButton(2, left + 38, offset + 160, false));
         this.updateButtons();
+
+        if (this.pendingCode != null) {
+            String code = this.pendingCode;
+            this.pendingCode = null;
+            unpackCode(code);
+        }
     }
 
     private void updateButtons() {

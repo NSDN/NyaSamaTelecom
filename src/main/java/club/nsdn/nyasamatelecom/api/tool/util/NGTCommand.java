@@ -68,12 +68,13 @@ public final class NGTCommand {
     /**
      * Hands the code to the client that should display the editor.
      *
-     * <p>Pending: needs the ported {@code GuiNGTablet} and a server-to-client payload (the reverse of
-     * {@code NGTPacket}, which already carries a compound tag and therefore already carries code). The
-     * 1.12.2 message {@code NGTEditor started} was a symptom of opening a desktop window from the
-     * server thread, so it is not reproduced.</p>
+     * <p>Implemented with {@link club.nsdn.nyasamatelecom.api.network.NGTEditorPacket}: only the code
+     * travels, because the client already knows which tablet is held. The 1.12.2 message
+     * {@code NGTEditor started} was a symptom of opening a desktop window from the server thread, so
+     * it is not reproduced.</p>
      */
     private static void openEditorOnClient(ServerPlayer player, String code) {
-        // TO DO with GuiNGTablet: send the code and open the screen client-side.
+        net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(
+                player, new club.nsdn.nyasamatelecom.api.network.NGTEditorPacket(code));
     }
 }
