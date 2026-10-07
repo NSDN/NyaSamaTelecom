@@ -109,15 +109,15 @@ public class NGTablet extends Item {
     }
 
     /**
-     * Client half of the tablet interaction.
+     * Client half of the tablet interaction: opens the in-game editor.
      *
-     * <p><b>Deferred:</b> 1.12.2 opened {@code GuiNGTablet} here. That screen is ported together with
-     * the rest of the {@code api/tool} GUI work, so this is a documented no-op for now rather than a
-     * half-built screen -- the server-side script path above is complete and independent of it.</p>
+     * <p>1.12.2 called {@code Minecraft.getMinecraft().displayGuiScreen(new GuiNGTablet(...))} here.
+     * The call now goes through {@code NGTabletClient}, a client-only class, because this class is
+     * also loaded on a dedicated server and must not carry a {@code Minecraft} reference itself.</p>
      */
     public void showGUI(ItemStack itemStack, Level level, Player player) {
         if (!player.isShiftKeyDown()) {
-            // GuiNGTablet is opened here once the screen is ported (see docs/00-PORT-PLAN.md).
+            club.nsdn.nyasamatelecom.api.tool.util.NGTabletClient.openEditor(modid, itemStack);
         }
     }
 }
