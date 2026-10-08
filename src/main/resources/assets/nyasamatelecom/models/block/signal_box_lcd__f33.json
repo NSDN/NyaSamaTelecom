@@ -1,0 +1,9 @@
+{
+  "automatic_culling": false,
+  "emissive_ambient": false,
+  "flip_v": false,
+  "loader": "neoforge:obj",
+  "model": "nyasamatelecom:models/block/signal_box_lcd__f33.obj",
+  "mtl_override": "nyasamatelecom:models/block/signal_box_lcd__f33.mtl",
+  "shade_quads": true
+}

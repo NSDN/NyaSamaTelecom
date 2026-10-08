@@ -1,0 +1,9 @@
+{
+  "automatic_culling": false,
+  "emissive_ambient": false,
+  "flip_v": false,
+  "loader": "neoforge:obj",
+  "model": "nyasamatelecom:models/block/nspga_print.obj",
+  "mtl_override": "nyasamatelecom:models/block/nspga_print.mtl",
+  "shade_quads": true
+}

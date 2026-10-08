@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": {
+      "model": "nyasamatelecom:block/cube_block",
+      "textures": {
+        "texture": "nyasamatelecom:block/nsdn_logo"
+      }
+    }
+  }
+}
