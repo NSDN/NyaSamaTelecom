@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import org.thewdj.telecom.IPassive;
+import cn.ac.nya.telecom.IPassive;
 
 import javax.annotation.Nullable;
 import java.util.LinkedList;

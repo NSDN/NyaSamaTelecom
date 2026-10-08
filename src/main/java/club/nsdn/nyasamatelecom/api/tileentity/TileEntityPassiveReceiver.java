@@ -3,7 +3,7 @@ package club.nsdn.nyasamatelecom.api.tileentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.thewdj.telecom.IPassive;
+import cn.ac.nya.telecom.IPassive;
 
 /**
  * Ported from the 1.12.2 {@code TileEntityPassiveReceiver}.

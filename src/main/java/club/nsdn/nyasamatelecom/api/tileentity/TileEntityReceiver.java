@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.thewdj.telecom.IReceiver;
+import cn.ac.nya.telecom.IReceiver;
 
 /**
  * Ported from the 1.12.2 {@code TileEntityReceiver}.

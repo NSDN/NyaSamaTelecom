@@ -5,8 +5,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.thewdj.telecom.IPassive;
-import org.thewdj.telecom.IRelay;
+import cn.ac.nya.telecom.IPassive;
+import cn.ac.nya.telecom.IRelay;
 
 /**
  * Ported from the 1.12.2 {@code TileEntityActuator}: a receiver that drives one target device by

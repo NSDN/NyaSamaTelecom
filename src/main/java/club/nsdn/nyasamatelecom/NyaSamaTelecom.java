@@ -9,9 +9,10 @@ import org.slf4j.LoggerFactory;
 /**
  * v3 skeleton entry point (Minecraft 1.21.1 / NeoForge).
  *
- * <p>This class only proves that the toolchain, mod metadata and dependency graph work.
- * The real 1.12.2 implementation lives in the corresponding module of
- * {@code NyaSamaCompletePack-v2} and will be ported into this package tree.</p>
+ * <p>The 1.12.2 implementation is ported: the {@code api} tree (tile entity / device / render /
+ * network / util / tool) lives in this module, and {@link TelecomCommands} registers its
+ * commands on the game bus. This entry point therefore only carries the mod id, the logger and
+ * the constructor signature.</p>
  */
 @Mod(NyaSamaTelecom.MODID)
 public class NyaSamaTelecom {
