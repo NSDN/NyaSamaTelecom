@@ -28,7 +28,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.common.ticket.SimpleTicket;
+import net.neoforged.neoforge.common.world.chunk.TicketController;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -63,10 +63,12 @@ import java.util.function.Supplier;
  * Because {@code TicketController} has no "enumerate my tickets" accessor either, the box remembers exactly
  * which chunks it forced, so removal un-forces that same set and nothing else.</p>
  *
- * <p>{@code ITileAnchor#setChunkTicket} takes a {@link SimpleTicket} in the ported API. Nothing ever hands
- * one back to a block entity any more (1.12.2's {@code LoadingCallback#ticketsLoaded} has no successor), so
- * the method only records the value for interface parity and the real work goes through
- * {@link #forceChunkLoading()}.</p>
+ * <p>{@code ITileAnchor#setChunkTicket} takes a {@link TicketController} (retyped from
+ * {@code SimpleTicket}, which is not a chunk mechanism -- see the interface's javadoc), so {@link #ticket}
+ * records the controller this box was handed. Nothing ever hands one back to a block entity any more
+ * (1.12.2's {@code LoadingCallback#ticketsLoaded} has no successor), so the method only records the value
+ * for interface parity and the real work goes through {@link #forceChunkLoading()}, which forces through
+ * the module's registered {@link TelecomBlockEntities#ANCHOR} -- the field is still never read.</p>
  *
  * <p>{@code TileEntityBase.update()} is {@code tick()} now; the 1.12.2 client branch is kept as-is
  * ({@code chunks} is only filled when the box already believes it holds a ticket, which on the client it
@@ -138,7 +140,7 @@ public class BlockWirelessTx extends SignalBoxGetter {
         public static final byte MAX_CHUNKS = 25;
         public Set<ChunkPos> chunks;
         /** The single {@code ITileAnchor} member 1.12.2 filled; see the class note. */
-        public SimpleTicket<?> ticket;
+        public TicketController ticket;
         /** What this box actually forced, so removal can undo exactly that (no enumeration API exists). */
         private final Set<ChunkPos> forcedChunks = new HashSet<>();
 
@@ -188,7 +190,7 @@ public class BlockWirelessTx extends SignalBoxGetter {
         }
 
         @Override
-        public void setChunkTicket(@Nullable SimpleTicket<?> tick) {
+        public void setChunkTicket(@Nullable TicketController tick) {
             this.ticket = tick;
             setTicketFlag(tick != null);
         }

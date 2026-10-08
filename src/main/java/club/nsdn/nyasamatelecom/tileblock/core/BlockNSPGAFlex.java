@@ -36,7 +36,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.common.ticket.SimpleTicket;
+import net.neoforged.neoforge.common.world.chunk.TicketController;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
@@ -328,7 +328,7 @@ public class BlockNSPGAFlex extends SignalBox {
         public static final byte MAX_CHUNKS = 25;
         public Set<ChunkPos> chunks;
         /** The single {@code ITileAnchor} member 1.12.2 filled; see {@link BlockWirelessTx}'s javadoc. */
-        public SimpleTicket<?> ticket;
+        public TicketController ticket;
         private final Set<ChunkPos> forcedChunks = new HashSet<>();
 
         public void setTicketFlag(boolean flag) {
@@ -377,7 +377,7 @@ public class BlockNSPGAFlex extends SignalBox {
         }
 
         @Override
-        public void setChunkTicket(@Nullable SimpleTicket<?> tick) {
+        public void setChunkTicket(@Nullable TicketController tick) {
             this.ticket = tick;
             setTicketFlag(tick != null);
         }
