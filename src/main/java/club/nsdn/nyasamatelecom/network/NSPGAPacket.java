@@ -21,10 +21,14 @@ import java.util.ArrayList;
  * with {@link NSPGAPacketHandler} on {@code Side.SERVER} and at {@code pos + 1} with
  * {@link NSPGAEditorHandler} on {@code Side.CLIENT} -- so "the same message, two directions, two handlers"
  * is the original design and not an accident. NeoForge removes discriminators but keeps the idea: a
- * payload keeps one {@code Type}, and the direction is decided per registration, so
- * {@code TelecomNetwork} registers this same type {@code playToServer} and {@code playToClient} with those
- * two handlers. The 1.12.2 no-argument constructor existed only for the message framework to instantiate
- * the class before {@code fromBytes}; a {@link StreamCodec} replaces that, so it is gone.</p>
+ * payload keeps one {@code Type} and the direction is decided at registration, and because
+ * {@code NetworkRegistry} keys payloads by (protocol, id) rather than by flow, the two directions are
+ * <b>one</b> {@code playBidirectional} registration in {@code TelecomNetwork} carrying a
+ * {@code DirectionalPayloadHandler} that routes on {@code IPayloadContext#flow} to those two handlers.
+ * (Two registrations of this one {@code Type} -- the literal transcription of the 1.12.2 shape -- throw
+ * {@code UnsupportedOperationException: ... already registered}; see {@code TelecomNetwork}.) The 1.12.2
+ * no-argument constructor existed only for the message framework to instantiate the class before
+ * {@code fromBytes}; a {@link StreamCodec} replaces that, so it is gone.</p>
  *
  * <p>Everything the old hand-written {@code toBytes}/{@code fromBytes} pair did is now
  * {@link ByteBufCodecs#COMPOUND_TAG}, including its exception swallowing -- which is a real behaviour
